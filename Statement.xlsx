@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Statement: 5246693 - JMON_OANDA_MT4</title>
+    <meta name="generator" content="MetaQuotes Software Corp.">
+    <link rel="help" href="https://www.metaquotes.net">
+    <style type="text/css" media="screen">
+    <!--
+    td { font: 8pt Tahoma,Arial; }
+    //-->
+    </style>
+    <style type="text/css" media="print">
+    <!--
+    td { font: 7pt Tahoma,Arial; }
+    //-->
+    </style>
+    <style type="text/css">
+    <!--
+    .msdate { mso-number-format:"General Date"; }
+    .mspt   { mso-number-format:\#\,\#\#0\.00;  }
+    //-->
+    </style>
+  </head>
+<body topmargin=1 marginheight=1>
+<div align=center>
+<div style="font: 20pt Times New Roman"><b>OANDA Corporation</b></div><br>
+
+
+<table cellspacing=1 cellpadding=3 border=0>
+<tr align=left>
+    <td colspan=2><b>Account: 5246693</b></td>
+    <td colspan=5><b>Name: JMON_OANDA_MT4</b></td>
+    <td colspan=2><b>Currency: USD</b></td>
+    <td colspan=2><b>Leverage: 1:100</b></td>
+    <td colspan=3 align=right><b>2020 February 27, 08:30</b></td></tr>
+
+<tr align=left><td colspan=14><b>Closed Transactions:</b></td></tr>
+<tr align=center bgcolor="#C0C0C0">
+   <td>Ticket</td><td nowrap>Open Time</td><td>Type</td><td>Size</td><td>Item</td>
+   <td>Price</td><td>S / L</td><td>T / P</td><td nowrap>Close Time</td>
+   <td>Price</td><td>Commission</td><td>Taxes</td><td>Swap</td><td>Profit</td></tr>
+<tr align=right><td title="ADJUSTMENT">232892929</td><td class=msdate nowrap>2020.02.06 15:56:18</td><td>balance</td><td colspan=10 align=left>ADJUSTMENT</td><td class=mspt>5 000.00</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #13">233266234</td><td class=msdate nowrap>2020.02.12 06:43:00</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #13</td><td class=mspt>-0.05</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #5">233272655</td><td class=msdate nowrap>2020.02.12 09:19:32</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #5</td><td class=mspt>-0.21</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">233350211</td><td class=msdate nowrap>2020.02.13 00:00:52</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>0.02</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #30">233404220</td><td class=msdate nowrap>2020.02.13 15:29:50</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #30</td><td class=mspt>-0.03</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #26">233405899</td><td class=msdate nowrap>2020.02.13 15:54:13</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #26</td><td class=mspt>-0.22</td></tr>
+<tr align=right><td title="Financing">233525368</td><td class=msdate nowrap>2020.02.15 00:01:23</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.03</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #22">233560139</td><td class=msdate nowrap>2020.02.17 16:07:02</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #22</td><td class=mspt>1.28</td></tr>
+<tr align=right><td title="Financing">233603977</td><td class=msdate nowrap>2020.02.18 00:00:58</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.01</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #42">233629295</td><td class=msdate nowrap>2020.02.18 10:45:46</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #42</td><td class=mspt>-0.53</td></tr>
+<tr align=right><td title="Financing">233684761</td><td class=msdate nowrap>2020.02.19 00:01:01</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.11</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">233778677</td><td class=msdate nowrap>2020.02.20 00:01:08</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.31</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #59">233822127</td><td class=msdate nowrap>2020.02.20 17:36:34</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #59</td><td class=mspt>5.56</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">233867428</td><td class=msdate nowrap>2020.02.21 00:01:00</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.08</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #46">233883437</td><td class=msdate nowrap>2020.02.21 09:02:27</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #46</td><td class=mspt>1.84</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #73">233907919</td><td class=msdate nowrap>2020.02.21 17:07:53</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #73</td><td class=mspt>0.43</td></tr>
+<tr align=right><td>233918634</td><td nowrap>2020.02.21 20:48:22</td><td>sell</td><td class=mspt>0.07</td><td>usdmxn-2</td><td style="mso-number-format:0\.00000;">18.86250</td><td style="mso-number-format:0\.00000;">19.05000</td><td style="mso-number-format:0\.00000;">18.55000</td><td class=msdate nowrap>2020.02.24 02:46:52</td><td style="mso-number-format:0\.00000;">19.05006</td><td class=mspt>0.00</td><td class=mspt>0.00</td><td class=mspt>0.00</td><td class=mspt>-68.94</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">233950638</td><td class=msdate nowrap>2020.02.22 00:00:53</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>0.74</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #96">233993390</td><td class=msdate nowrap>2020.02.24 16:12:12</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #96</td><td class=mspt>-0.02</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">234049526</td><td class=msdate nowrap>2020.02.25 00:00:55</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.07</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #85">234097389</td><td class=msdate nowrap>2020.02.25 17:25:24</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #85</td><td class=mspt>1.82</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Financing">234151185</td><td class=msdate nowrap>2020.02.26 00:01:02</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.06</td></tr>
+<tr align=right><td title="Financing">234251455</td><td class=msdate nowrap>2020.02.27 00:01:10</td><td>balance</td><td colspan=10 align=left>Financing</td><td class=mspt>-0.14</td></tr>
+<tr bgcolor=#E0E0E0 align=right><td title="Non-MT4 Activity, #77">234259353</td><td class=msdate nowrap>2020.02.27 02:10:14</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #77</td><td class=mspt>-1.00</td></tr>
+<tr align=right><td title="Non-MT4 Activity, #81">234281691</td><td class=msdate nowrap>2020.02.27 12:11:57</td><td>balance</td><td colspan=10 align=left>Non-MT4 Activity, #81</td><td class=mspt>0.35</td></tr>
+
+
+<tr align=right>
+    <td colspan=10>&nbsp;</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>-68.94</td>
+</tr>
+
+<tr align=right>
+    <td colspan=12 align=right><b>Closed P/L:</b></td>
+    <td colspan=2 align=right title="Commission + Swap + Profit + Taxes" class=mspt><b>-68.94</b></td>
+</tr>
+
+<tr align=left><td colspan=14><b>Open Trades:</b></td></tr>
+<tr align=center bgcolor="#C0C0C0">
+    <td>Ticket</td><td nowrap>Open Time</td><td>Type</td><td>Size</td><td>Item</td>
+    <td>Price</td><td>S / L</td><td>T / P</td><td>&nbsp;</td>
+    <td>Price</td><td>Commission</td><td>Taxes</td><td>Swap</td><td>Profit</td></tr>
+<tr align=right><td>233963106</td><td nowrap>2020.02.24 02:39:26</td><td>sell</td><td class=mspt>0.01</td><td>usdcnh-2</td><td style="mso-number-format:0\.00000;">7.04871</td><td style="mso-number-format:0\.00000;">7.14868</td><td style="mso-number-format:0\.00000;">6.94868</td><td class=msdate nowrap>&nbsp;</td><td style="mso-number-format:0\.00000;">7.01287</td><td class=mspt>0.00</td><td class=mspt>0.00</td><td class=mspt>0.00</td><td class=mspt>5.11</td></tr>
+
+
+<tr align=right>
+    <td colspan=10>&nbsp;</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>0.00</td>
+    <td class=mspt>5.11</td>
+</tr>
+
+<tr><td colspan=10>&nbsp;</td><td colspan=2 align=right><b>Floating P/L:</b></td>
+    <td colspan=2 align=right title="Commission + Swap + Profit + Taxes" class=mspt><b>5.11</b></td></tr>
+
+<tr align=left><td colspan=14><b>Working Orders:</b></td></tr>
+<tr align=center bgcolor="#C0C0C0">
+    <td>Ticket</td><td nowrap>Open Time</td><td>Type</td><td>Size</td><td>Item</td>
+    <td>Price</td><td>S / L</td><td>T / P</td><td colspan=2 nowrap>Market Price</td><td colspan=4>&nbsp;</td></tr>
+<tr align=right><td colspan=13 align=center>No transactions</td></tr>
+
+
+<tr><td colspan=14 style="font: 1pt arial">&nbsp;</td></tr>
+
+<tr align=left><td colspan=14><b>Summary:</b></td></tr>
+<tr align=right>
+    <td colspan=2><b>Deposit/Withdrawal:</b></td>
+    <td colspan=2 class=mspt><b>5 009.17</b></td>
+    <td colspan=4><b>Credit Facility:</b></td>
+    <td class=mspt><b>0.00</b></td>
+    <td colspan=5>&nbsp;</td></tr>
+    
+<tr align=right>
+    <td colspan=2><b>Closed Trade P/L:</b></td>
+    <td colspan=2 class=mspt><b>-68.94</b></td>
+    <td colspan=4><b>Floating P/L:</b></td>
+    <td class=mspt><b>5.11</b></td>
+    <td colspan=3><b>Margin:</b></td>
+    <td colspan=2 class=mspt><b>50.00</b></td></tr>
+
+<tr align=right>
+    <td colspan=2><b>Balance:</b></td>
+    <td colspan=2 class=mspt><b>4 940.23</b></td>
+    <td colspan=4><b>Equity:</b></td>
+    <td class=mspt><b>4 945.34</b></td>
+    <td colspan=3><b>Free Margin:</b></td>
+    <td colspan=2 class=mspt><b>4 895.34</b></td></tr>
+	
+</table>
+</div></body></html>
