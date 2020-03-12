@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb  1 16:57:27 2020
-
-@author: Juanma
-"""
-
 # -- ------------------------------------------------------------------------------------ -- #
 # -- Proyecto: Repaso de python 3 y analisis de precios OHLC                              -- #
 # -- Codigo: datos.py - script con datos de uso en proyecto                               -- #

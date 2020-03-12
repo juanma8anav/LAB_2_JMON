@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb  1 17:17:32 2020
-
-@author: Juanma
-"""
 
 # -- ------------------------------------------------------------------------------------ -- #
 # -- Proyecto: Describir brevemente el proyecto en general                                -- #
