@@ -15,6 +15,12 @@ import oandapyV20.endpoints.instruments as instruments    # informacion de preci
 
 # -- --------------------------------------------------------- FUNCION: Descargar precios -- #
 # -- Descargar precios historicos con OANDA
+def descarga():
+    hist_file = (r'C:\Users\juanm\Documents\Iteso\Sem10\Trading\labWork\statement1.csv')
+    hist = pd.csv_read(hist_file, sep=',')
+    hist.head()
+    
+#%%
 
 def f_precios_masivos(p0_fini, p1_ffin, p2_gran, p3_inst, p4_oatk, p5_ginc):
     """
