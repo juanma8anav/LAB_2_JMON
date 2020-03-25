@@ -10,10 +10,32 @@
 
 import funciones as fn                              # Para procesamiento de datos
 import visualizaciones as vs                        # Para visualizacion de datos
+import pandas as pd
+import numpy as np
 
 
 
 
 
 #%%
-df_data = fn.f_leer_archivo(param_archivo='archivo_tradeview_1.xlsx')
+param_archivo='archivo_tradeview_1.csv'
+df_data = fn.f_leer_archivo(param_archivo='archivo_tradeview_1.csv')
+
+#%%
+
+pip_sizee = fn.f_pip_size(param_ins='btcusd')
+
+#%%
+
+df_data = fn.f_columnas_tiempos(datos = df_data)
+#df_temp = pd.DataFrame(temp)
+#df_dataf = np.concatenate((df_data, df_temp), axis = 1)
+#df_dataf = [df_data[:,:], df_temp[:,:]]
+
+#%%
+
+df_data = fn.f_columnas_pips(datos = df_data)
+
+#%%
+
+f_estadisticas_b = fn.f_estadisticas_ba(datos = df_data)
