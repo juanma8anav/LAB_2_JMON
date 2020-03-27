@@ -39,3 +39,7 @@ df_data = fn.f_columnas_pips(datos = df_data)
 #%%
 
 f_estadisticas_b = fn.f_estadisticas_ba(datos = df_data)
+
+#%%
+
+df_1_ranking = fn.f_rank(datos = df_data)

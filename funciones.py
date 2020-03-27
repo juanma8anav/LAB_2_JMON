@@ -199,6 +199,81 @@ def f_estadisticas_ba(datos):
      
     return df_1_tabla
  
+    
+#%%
+    
+def f_rank(datos):
+    
+    #ssymbol = datos['symbol'].name.unique
+    
+    ssymb = []
+    for i in datos['symbol']:
+        if i not in ssymb:
+            ssymb.append(i)
+            
+    rnk = np.zeros(len(ssymb))
+    
+    
+    
+    df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
+    
+    
+#    adid = np.zeros(len(datos)-len(df_1_ranking),2)
+#    df_adid = pd.DataFrame(adid)
+#    
+#    df_1_ranking = pd.concat(df_1_ranking, df_adid)
+    
+    x = 0
+    for x in range(0, len(df_data)):
+        if pd.merge(df_1_ranking, df_data, on = (df_1_ranking['Symbol'] == df_data['symbol'])):
+            if df_data['profit'] > 0:
+                sum(1 in df_1_ranking['Rank'][x])
+                x =+1
+    
+    
+    
+    #sum(1 for x in df_1_ranking['Rank'] if df_data[df_data['symbol'] ==])
+    
+    
+#    i = 0
+#    for i in range(0, len(df_data)):
+#        if df_data['profit'].eq(0)
+   
+        
+    
+    
+#    array = [-37,-36,-19,-99,29,20,3,-7,-64,84,36,62,26,-76,55,-24,84,49,-65,41] 
+#    print sum(i for i in array if array.index(i) % 2 == 0)*array[-1] if array != [] else 0
+#    i = 0    
+#    sum(1 for i in df_1_ranking['Rank'] if datos['symbol'][i] == df_1_ranking['Symbol'] & datos['profit'][i] > 0) 
+    
+    
+#    q = 0
+#    x = 0
+#    for q in range(0, len(datos)):
+#       sum(1 for x in df_1_ranking['Rank'][x] if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0) / sum(1 if df_1_ranking['Symbol'][x] == datos['symbol'][x])
+    
+#    i = 0
+#    j = 0
+#    c = 0
+#    t = 0
+#
+#    for i in range(0, len(datos)):
+#        for j in range(0, len(df_1_ranking)):
+#            if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
+#                df_1_ranking['Rank'][j] =+1 
+                
+            
+
+    
+#    for i in range (0,len(datos)):
+#        if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
+#            df_1_ranking['Rank'] =  count(datos['profit'],[i]) / count(datos[])
+        
+        
+        
+    
+    return df_1_ranking
  
 
 
