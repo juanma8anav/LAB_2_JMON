@@ -215,20 +215,44 @@ def f_rank(datos):
     
     
     
+    
+    
     df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
     
+    
+#    datos.sort_values(by = ['symbol'])#, ascending = True)
+#    i = 0 
+#    j = 0 
+#    
+#    for i in range(0, len(datos)):
+#        for j in range (0, len(df_1_ranking)):
+#            if datos['symbol'][i] == df_1_ranking['Symbol'][j]:
+#                if datos['profit'][i] > 0:
+#                    sum(1 in df_1_ranking['Rank'][j])
+#                else:
+#                    j =+1
+#            i =+1
+                        
+    
+    
+    
+    
+#    for datos.index, datos['symbol'] in datos.iterrows():
+#        for df_1_ranking.index, df_1_ranking['Symbol'] in df_1_ranking.iterrows():
+#            if ((datos['sysmbol'] == df_1_ranking['Symbol']) and (datos['profit'] > 0)):
+#                sum(1 in df_1_ranking['Rank'])
     
 #    adid = np.zeros(len(datos)-len(df_1_ranking),2)
 #    df_adid = pd.DataFrame(adid)
 #    
 #    df_1_ranking = pd.concat(df_1_ranking, df_adid)
     
-    x = 0
-    for x in range(0, len(df_data)):
-        if pd.merge(df_1_ranking, df_data, on = (df_1_ranking['Symbol'] == df_data['symbol'])):
-            if df_data['profit'] > 0:
-                sum(1 in df_1_ranking['Rank'][x])
-                x =+1
+#    x = 0
+#    for x in range(0, len(df_data)):
+#        if pd.merge(df_1_ranking, df_data, on = (df_1_ranking['Symbol'] == df_data['symbol'])):
+#            if df_data['profit'] > 0:
+#                sum(1 in df_1_ranking['Rank'][x])
+#                x =+1
     
     
     
