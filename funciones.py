@@ -139,64 +139,14 @@ def f_estadisticas_ba(datos):
      
     prev2 = datos[(datos.type == 'buy') & (datos.profit > 0)]
     v2 = len(prev2)
-    #v2 = datos[datos[type == 'buy'] & datos['profit'] > 0].count()
-    #sum(1 for v2 in v2 if datos['type'][i] == 'buy' and datos['profit'][i] > 0)
-#    c= 0
-#    
-#    for i in range(0,len(datos['profit'])):  
-#        if datos['type'][i] == 'buy' and datos['profit'][i] > 0 :
-#            v3 =+1
-#    c = 0
-#    for c in range(0,len(datos)):
-#        if datos['type'][c] == 'buy' and datos['profit'][c] > 0:
-#            v3 =+1
-#        c =+1
-
-   # sum(1 if datos.iloc[c,2] == 'buy' and datos.iloc[c,-5] > 0 for c in range (0, len(datos)) in v3)
+   
+    v3 = len(datos[(datos.type == 'sell') & (datos.profit > 0)])
+        
+    v4 = v0-v1
     
-    #sum(1 )
-        
-        
-#    c=0        
-#    for c in range(0,len(datos['size'])):
-#        if datos.iloc[c,2] == 'buy' and datos.iloc[c,-5] > 0:
-#            
-#            v3 =+ 1
-        
-                
-            
-
+    v5 = len(datos[(datos.type == 'buy') & (datos.profit < 0)])
     
-
-
-#    c=0        
-#    for c in range(0,len(datos)):
-#        if datos.profit.iloc[c]>0 and datos['type'][c] == 'sell':
-#            v4 =+ 1
-#            
-#        c=+1 
-#    
-#    c=0 
-#    for c in range(0,len(datos)): # v5 = len(datos) - vv2
-#        if datos.profit.iloc[c]<0:
-#            v5 =+ 1
-#            
-#        c=+1
-#    
-#        c=0        
-#    for c in range(0,len(datos)):
-#        if datos.profit.iloc[c]<0 and datos['type'][c] == 'buy':
-#            v6 =+ 1
-#            
-#        c=+1
-#    
-#        c=0        
-#    for c in range(0,len(datos)):
-#        if datos.profit.iloc[c]<0 and datos['type'][c] == 'bsell':
-#            v7 =+ 1
-#            
-#        c=+1
-        
+    v6 = len(datos[(datos.type == 'sell') & (datos.profit < 0)])
         
     v7 = np.median(datos.profit)
     
@@ -204,11 +154,11 @@ def f_estadisticas_ba(datos):
     
     v9 =v1/v0
     
-    v10 = 1- v9
+    v10 = v4/v2
     
     v11 = v2/v0
     
-    v12 =1-v11
+    v12 = v3/v0
     
     _tabla = {'Medida' : ['Ops totales', 'Ganadoras', 'Ganadoras_c', 'Ganadoras_v', 'Perdedoras', 
                             'Perdedoras_c', 'Perdedoras_v', 'Media(Profit)', 'Media(pips)', 'r_efectividad',
