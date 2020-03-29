@@ -126,67 +126,94 @@ def f_columnas_pips(datos):
 
 def f_estadisticas_ba(datos):
     c = 0
+    v1 = 0
     v2 = 0
     v3 = 0
-    v4 = v5 =v6 =v7=v8=v9=v10=v11=v13=v13=0
-    v1 = len(datos)
+    v4 = v5 =v6 =v7=v8=v9=v10=v11=v12=0
+    v0 = len(datos)
     for c in range(0,len(datos)):#len(filter(datos['profit'] if x>0 )) #sum(1 for x in datos['profit'] if datos.iloc[i, 'profit'] >0)   # sum(1 for x in my_list if datos.profit[x]>0)
-        if datos.profit.iloc[c]>0:
-            v2 = v2+1
+        if datos.profit[c]>0:
+            v1 = v1+1
             
         c=+1
-    c=0        
-    for c in range(0,len(datos)):
-        if datos.profit.iloc[c]>0 and datos['type'][c] == 'buy':
-            v3 =+ 1
-            
-        c=+1
+     
+    prev2 = datos[(datos.type == 'buy') & (datos.profit > 0)]
+    v2 = len(prev2)
+    #v2 = datos[datos[type == 'buy'] & datos['profit'] > 0].count()
+    #sum(1 for v2 in v2 if datos['type'][i] == 'buy' and datos['profit'][i] > 0)
+#    c= 0
+#    
+#    for i in range(0,len(datos['profit'])):  
+#        if datos['type'][i] == 'buy' and datos['profit'][i] > 0 :
+#            v3 =+1
+#    c = 0
+#    for c in range(0,len(datos)):
+#        if datos['type'][c] == 'buy' and datos['profit'][c] > 0:
+#            v3 =+1
+#        c =+1
+
+   # sum(1 if datos.iloc[c,2] == 'buy' and datos.iloc[c,-5] > 0 for c in range (0, len(datos)) in v3)
     
-    c=0        
-    for c in range(0,len(datos)):
-        if datos.profit.iloc[c]>0 and datos['type'][c] == 'sell':
-            v4 =+ 1
-            
-        c=+1 
-    
-    c=0 
-    for c in range(0,len(datos)): # v5 = len(datos) - vv2
-        if datos.profit.iloc[c]<0:
-            v5 =+ 1
-            
-        c=+1
-    
-        c=0        
-    for c in range(0,len(datos)):
-        if datos.profit.iloc[c]<0 and datos['type'][c] == 'buy':
-            v6 =+ 1
-            
-        c=+1
-    
-        c=0        
-    for c in range(0,len(datos)):
-        if datos.profit.iloc[c]<0 and datos['type'][c] == 'bsell':
-            v7 =+ 1
-            
-        c=+1
+    #sum(1 )
         
         
-    v8 = np.median(datos.profit)
+#    c=0        
+#    for c in range(0,len(datos['size'])):
+#        if datos.iloc[c,2] == 'buy' and datos.iloc[c,-5] > 0:
+#            
+#            v3 =+ 1
+        
+                
+            
+
     
-    v9 = np.median(datos.pips)
+
+
+#    c=0        
+#    for c in range(0,len(datos)):
+#        if datos.profit.iloc[c]>0 and datos['type'][c] == 'sell':
+#            v4 =+ 1
+#            
+#        c=+1 
+#    
+#    c=0 
+#    for c in range(0,len(datos)): # v5 = len(datos) - vv2
+#        if datos.profit.iloc[c]<0:
+#            v5 =+ 1
+#            
+#        c=+1
+#    
+#        c=0        
+#    for c in range(0,len(datos)):
+#        if datos.profit.iloc[c]<0 and datos['type'][c] == 'buy':
+#            v6 =+ 1
+#            
+#        c=+1
+#    
+#        c=0        
+#    for c in range(0,len(datos)):
+#        if datos.profit.iloc[c]<0 and datos['type'][c] == 'bsell':
+#            v7 =+ 1
+#            
+#        c=+1
+        
+        
+    v7 = np.median(datos.profit)
     
-    v10 =v2/v1
+    v8 = np.median(datos.pips)
     
-    v11 = 1- v10
+    v9 =v1/v0
     
-    v12 = v3/v1
+    v10 = 1- v9
     
-    v13 =1-v12
+    v11 = v2/v0
+    
+    v12 =1-v11
     
     _tabla = {'Medida' : ['Ops totales', 'Ganadoras', 'Ganadoras_c', 'Ganadoras_v', 'Perdedoras', 
                             'Perdedoras_c', 'Perdedoras_v', 'Media(Profit)', 'Media(pips)', 'r_efectividad',
                             'r_proporcion', 'r_efectividad_c', 'r_efectividad_v'], 
-                            'valor' : [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13], 
+                            'valor' : [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12], 
                             'descripcion' : ['Operaciones totales', 
                              'Operaciones ganadoras', 'Operaciones ganadoras de compra', 'Operaciones ganadoras de venta',
                              'Operaciones perdedoras', 'Operaciones perdedoras de compra', 'Operaciones perdedoras de venta',
@@ -298,7 +325,91 @@ def f_rank(datos):
         
     
     return df_1_ranking
+
+#%%
+    
+def capital_acm(datos):
+    
+    
+    datos['capital acumulado'] = 5000 +  datos.iloc[0,17]
+    i =1
+    for i in range(1,len(datos) -1):
+        datos.iloc[i,18] = datos.iloc[i,13] + datos.iloc[i-1,18]
+        #datos.iloc[i,18] = datos.iloc[i,17] + datos.iloc[i-1,18]
+#    datos['capital acumulado'] = np.ones(len(datos))*5000
+#    for i in range(0,len(datos)):
+#        datos.iloc[i, 18] = 5000 + datos.iloc[i, 17]
+#       # datos[i]['capital acumulado'] = 5000 + datos[i]['profit_acm']
+#        i =+1
  
+#    datos['capital acumulado'] = 5000 + datos['profit_acm']
+    
+    return datos
+
+#%%
+def f_profit_diario(datos):
+    dates = datos['opentime']
+    dates = dates[0:9]
+    timeStamps = []
+    for i in datos['symbol']:
+        if i not in ssymb:
+            ssymb.append(i)
+        
+        prfit_acm_d = pd.DataFrame = {'timestamp': timeStamps, 'profit_d': prfoit_d, 'profit_acm_d': profit_acm_d}
+        
+        
+#%%
+    
+def f_estadisticas_mad(datos):
+    rf = 0.08
+    rpmat = []
+    i = 1
+    for i in range(1, len(datos)):
+        rp = (datos['capital acumulado'][i] - datos['capital acumulado'][i-1])/ datos['capital acumulado'][i-1]
+        rpmat.append(rp)
+        i =+1
+    desvstd = np.std(rpmat)
+    Rt = sum(rpmat)/len(rpmat)
+    
+    logrt = np.log(1+Rt)
+    vsharpe = (logrt - rf)/ desvstd
+    
+    rpmatpos = []
+    rpmatneg = []
+    i = 0
+    for i in range(0, len(rpmat)):
+        if rpmat[i] > 0:
+            rpmatpos.append(rpmat)
+        else:
+            rpmatneg.append(rpmat)
+                
+            
+    vsortino_c = (logrt - rf)/np.std(rpmatpos)
+    vsortino_v = (logrt - rf)/np.std(rpmatneg)
+    vdrawdown_capi_u = 1
+    vdrawdown_capi_c = 1
+    
+    SP = pd.read_csv(r'C:/Users/juanm/Documents/Iteso/Sem10/Trading/labWork/^GSPC.csv') 
+    df_SP = pd.DataFrame(SP)       
+    benchmark = df_SP['Adj Close']
+    rp_benchmat = []
+    i = 1
+    for i in range(1,len(benchmark)):
+        rpbench = (benchmark[i] - benchmark[i-1])/ benchmark[i-1]
+        rp_benchmat.append(rpbench)
+        
+    vinformation_r = 1
+    
+    
+    
+    
+    estadisticas_mad = pd.DataFrame({'metrica': ['sharpe', 'sortino_c', 'sortino_v', 'drawdown_capi_c', 'drawdown_capi_u', 'information_r'],
+                     'valor': [vsharpe, vsortino_c, vsortino_v, vdrawdown_capi_c, vdrawdown_capi_u, vinformation_r], 
+                     'descripcion': ['Sharpe Ratio', 'Sortino Ratio para Posiciones  de Compra', 
+                                     'Sortino Ratio para Posiciones de Venta', 'DrawDown de Capital', 'DrawUp de Capital',  
+                                     'Informatio Ratio']})
+    
+    return estadisticas_mad
 
 
 
