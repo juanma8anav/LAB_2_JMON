@@ -25,7 +25,8 @@ def f_leer_archivo(param_archivo):
     param_archivo = 'archivo_tradeview_1.xlsx'
     """
  # Leer archivo de datos y guardarlo en Data Frame
-    df_data = pd.read_csv(r'C:/Users/juanm/Documents/Iteso/Sem10/Trading/labWork/' + param_archivo)#, sheet_name='archivo_tradeview_1')
+    #df_data = pd.read_csv(r'C:\Users\Usuario\Documents\Sem9\Trading\labWork\' + param_archivo)#, sheet_name='archivo_tradeview_1') 
+    df_data = pd.read_csv(r'C:/Users/Usuario/Documents/Sem9/Trading/labWork/' + param_archivo)#, sheet_name='archivo_tradeview_1')
    # Convertir a minusculas el nombre de las columnas
     df_data.columns = [list(df_data.columns)[i].lower() for i in range(0, len(df_data.columns))]
     # Asegurar que ciertas columnas son tipo numerico
@@ -67,7 +68,7 @@ def f_pip_size(param_ins):
                 'nzdcad': 10000,'audcad': 10000, 'xauusd': 10, 'xagusd': 10, 'btcusd': 1}
     #{'xauusd': 10, 'eurusd': 10000, 'xaueur': 10,'bcousd':1000,'conrusd':10000 ,'mbtcusd':1000,'wtiusd':1000, 'spx500usd':10}
     
-    return pip_inst[param_ins]
+    return pip_inst[inst]
 
 #%%
 def f_columnas_tiempos(datos):
@@ -111,9 +112,10 @@ def f_columnas_pips(datos):
     for i in range(0, len(datos)):
         #if datos.iloc[2, i] == "buy":
         if datos['type'][i] == 'buy':
-            datos['pips'][i] = (datos.closeprice[i] - datos.openprice[i])*f_pip_size(param_ins=datos['symbol'][i])
+            datos['pips'][i] = (datos.closeprice[i] - datos.openprice[i])*f_pip_size(datos['symbol'][i])
         else:
-            datos['pips'][i] = (datos.closeprice[i] - datos.openprice[i])*f_pip_size(param_ins=datos['symbol'][i])*-1
+            datos['pips'][i] = (datos.closeprice[i] - datos.openprice[i])*f_pip_size(datos['symbol'][i])*-1
+            #datos['pips'][i] = (datos.openprice[i] - datos.closeprice[i])*f_pip_size(datos['symbol'][i])
             
     datos['pips_acm'] = np.zeros(len(datos))
     datos['pips_acm'] = datos.pips.cumsum()
@@ -154,7 +156,7 @@ def f_estadisticas_ba(datos):
     
     v9 =v1/v0
     
-    v10 = v4/v2
+    v10 = v1/v4
     
     v11 = v2/v0
     
@@ -339,7 +341,7 @@ def f_estadisticas_mad(datos):
     vdrawdown_capi_u = 1
     vdrawdown_capi_c = 1
     
-    SP = pd.read_csv(r'C:/Users/juanm/Documents/Iteso/Sem10/Trading/labWork/^GSPC.csv') 
+    SP = pd.read_csv(r'C:/Users/Usuario/Documents/Sem9/Trading/labWork//^GSPC.csv') 
     df_SP = pd.DataFrame(SP)       
     benchmark = df_SP['Adj Close']
     rp_benchmat = []
