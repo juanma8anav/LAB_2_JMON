@@ -89,7 +89,7 @@ def f_columnas_tiempos(datos):
     datos['closetime'] = pd.to_datetime( datos['closetime'])
     datos['opentime'] = pd.to_datetime( datos['opentime'])
     
-    datos['tiempo'] = [(datos.closetime[i] - datos.opentime[i]).delta / 1e9 for i in datos.index]
+    datos['tiempo'] = [(datos.loc[i, 'closetime'] - datos.loc[i, 'opentime']).delta / 1*np.exp(9) for i in range(0, len(datos))]
     
     #i = 0
     #temp = []
@@ -355,13 +355,18 @@ def capital_acm(datos):
 
 #%%
 def f_profit_diario(datos):
-    
+    #from datetime import datetime
     dates = datos['opentime'].unique().tolist()
-    
+    dates.date()# = pd.to_datetime(dates)
+    #dates = dates.dt.strftime(" %b %d %Y")  #'list' object has no attribute 'dt'
+#    for i in range(0, len(dates)):
+#        dates[i] = dates[i].dt.strftime(" %b %d %Y")
+        
     relleno1 = np.zeros(len(dates))
     relleno2 = np.zeros(len(dates))
     
     df_profit_acm_d = pd.DataFrame({'timestamp': dates, 'profit_d': relleno1,'profit_acm_d': relleno2})
+    #df_profit_acm_d['timestamp'] = df_profit_acm_d['timestamp'].dt.date('%m/%d/%Y')
     
     
     #df_profit_acm_d = pd.DataFrame(relleno, columns = ['timestamp','profit_d','profit_acm_d'])
@@ -412,7 +417,7 @@ def f_estadisticas_mad(datos):
     rpmat = []
     i = 1
     for i in range(1, len(datos)):
-        rp = (datos['capital acumulado'][i] - datos['capital acumulado'][i-1])/ datos['capital acumulado'][i-1]
+        rp = (datos['capital_acm'][i] - datos['capital_acm'][i-1])/ datos['capital_acm'][i-1]
         rpmat.append(rp)
         i =+1
     desvstd = np.std(rpmat)
@@ -458,7 +463,7 @@ def f_estadisticas_mad(datos):
     
     return estadisticas_mad
 
-
+#%%
 
 
 
