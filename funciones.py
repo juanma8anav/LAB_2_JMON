@@ -32,8 +32,8 @@ def f_leer_archivo(param_archivo):
     # Asegurar que ciertas columnas son tipo numerico
     numcols =  ['s/l', 't/p', 'commission', 'openprice', 'closeprice', 'profit', 'size', 'swap', 'taxes']
     df_data[numcols] = df_data[numcols].apply(pd.to_numeric)  
-    datcols = ['opentime', 'closetime']
-    df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
+    #datcols = ['opentime', 'closetime']
+    #df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
     return df_data
 
     
@@ -53,22 +53,27 @@ def f_pip_size(param_ins):
     Debugging
     ---------
     """""
-    param_ins =  'btcusd'
+    #param_ins =  'btcusd'
     # encontrar y eliminar un guion bajo
     inst = param_ins.replace('_', '')
     inst = param_ins.replace('-2', '')    
     # transformar a minusculas
     inst = inst.lower()
     #lista de pips por instrumento
-    pip_inst = pip_inst = {'usdjpy': 100, 'gbpjpy': 100, 'eurjpy': 100, 'cadjpy': 100,
-                'chfjpy': 100,'eurusd': 10000, 'gbpusd': 10000, 'usdcad': 10000, 
+    pip_inst = {'usdjpy': 10000, 'gbpjpy': 10000, 'eurjpy': 10000, 'cadjpy': 10000,
+                'chfjpy': 10000,'eurusd': 10000, 'gbpusd': 10000, 'usdcad': 10000, 
                 'usdmxn': 10000,'audusd': 10000, 'nzdusd': 10000, 'usdchf': 10000, 
                 'eurgbp': 10000, 'eurchf': 10000, 'eurnzd': 10000, 'euraud': 10000, 
                 'gbpnzd': 10000, 'gbpchf': 10000, 'gbpaud': 10000, 'audnzd': 10000, 
-                'nzdcad': 10000,'audcad': 10000, 'xauusd': 10, 'xagusd': 10, 'btcusd': 1}
+                'nzdcad': 10000,'audcad': 10000, 'xauusd': 10, 'xagusd': 10, 'btcusd': 1,
+                'nas100usd': 10, 'us30usd': 10, 'mbtcusd':100, 'usdmxn': 10000,}
+    
+    
+    
+    
     #{'xauusd': 10, 'eurusd': 10000, 'xaueur': 10,'bcousd':1000,'conrusd':10000 ,'mbtcusd':1000,'wtiusd':1000, 'spx500usd':10}
     
-    return pip_inst[inst]
+    return pip_inst[param_ins]
 
 #%%
 def f_columnas_tiempos(datos):
@@ -81,18 +86,26 @@ def f_columnas_tiempos(datos):
     
     """
     
-    i = 0
+    datos['closetime'] = pd.to_datetime( datos['closetime'])
+    datos['opentime'] = pd.to_datetime( datos['opentime'])
+    
+    datos['tiempo'] = [(datos.closetime[i] - datos.opentime[i]).delta / 1e9 for i in datos.index]
+    
+    #i = 0
     #temp = []
-    for i in range(0, len(datos)):#np.size(datos,2)):
+#    for i in range(0, len(datos)):#np.size(datos,2)):
+#        datos['closetime'] = pd.to_datetime( datos['closetime'])
+#        datos['opentime'] = pd.to_datetime( datos['opentime'])
+#        datos['tiempo'] = (datos.closetime[i] - datos.opentime[i]).delta/1*np.exp(9)
         #datos['tiempo'] = datos.iloc[i,6]-datos.iloc[i,1]
-        datos['tiempo'] = pd.to_datetime(datos.iloc[i,6])-pd.to_datetime(datos.iloc[i,1])
+        #datos['tiempo'] = pd.to_datetime(datos.iloc[i,6])-pd.to_datetime(datos.iloc[i,1])
         #tiempop.astype('timedelta64[D]')
         #tiempop = datos.iloc[-6] - datos.iloc[2]
         #tiempop = np.timedelta64(datos.iloc[6]) - np.timedelta64(datos.iloc[1])  
         #np.datetime64(df_data.iloc[-6]) - np.datetime64(df_data.iloc[2])
         #tiempops = np.datetime64(tiempop, 's')
         #temp.append(tiempop)
-        i = i+1
+        #i = i+1
     #td =   pd.to_timedelta(temp) 
     #td = pd.to_timedelta(['-1 days +02:45:00','1 days +02:45:00','0 days +02:45:00'])
     #df = pd.DataFrame({'td': td})
@@ -183,20 +196,61 @@ def f_estadisticas_ba(datos):
     
 def f_rank(datos):
     
+    ssymb = datos["symbol"].unique().tolist()
+
+    rnk = np.zeros(shape = (len(ssymb),2))
+
+    df_1_ranking = pd.DataFrame(rnk, columns = ['Symbol' , 'Rank'])
+     
+    for i in range (0,len(ssymb)):
+        df_1_ranking['Symbol'][i] = ssymb[i]
+        
+    for i in range (0,len(df_1_ranking["Symbol"])):
+        g = 0
+        t = 0
+        for j in range (0,len(datos["symbol"])):
+            if df_1_ranking["Symbol"][i] == datos["symbol"][j]:
+                t =t + 1 
+                if datos['profit'][j] > 0:
+                    g =g+1
+                
+        df_1_ranking['Rank'][i] = g/t
+
+    
+
+
+
+    
+    
+    
+    
+    
     #ssymbol = datos['symbol'].name.unique
     
-    ssymb = []
-    for i in datos['symbol']:
-        if i not in ssymb:
-            ssymb.append(i)
-            
-    rnk = np.zeros(len(ssymb))
+#    ssymb = []
+#    for i in datos['symbol']:
+#        if i not in ssymb:
+#            ssymb.append(i)
+#            
+#    rnk = np.zeros(len(ssymb))
+#    
+#    
+#    
+#    df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
     
+
     
-    
-    
-    
-    df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
+#    g = 0
+#    t = 0
+#    for i in range(0,len(df_1_ranking)):
+#        for j in range(0, len(datos)):
+#            if df_1_ranking['Symbol'][i] == datos['symbol'][j]:
+#                t =+1
+#                if datos['profit'][j] > 0:
+#                    g =+1
+#        df_1_ranking['Rank'][i] = g/t
+#        
+        
     
     
 #    datos.sort_values(by = ['symbol'])#, ascending = True)
@@ -283,10 +337,11 @@ def f_rank(datos):
 def capital_acm(datos):
     
     
-    datos['capital acumulado'] = 5000 +  datos.iloc[0,17]
-    i =1
-    for i in range(1,len(datos) -1):
-        datos.iloc[i,18] = datos.iloc[i,13] + datos.iloc[i-1,18]
+    #datos['capital_acm'] = 5000 +  datos.iloc[0,17]
+#    i =1
+#    for i in range(1,len(datos)):
+        
+        #datos.iloc[i,18] = datos.iloc[i,13] + datos.iloc[i-1,18]
         #datos.iloc[i,18] = datos.iloc[i,17] + datos.iloc[i-1,18]
 #    datos['capital acumulado'] = np.ones(len(datos))*5000
 #    for i in range(0,len(datos)):
@@ -294,22 +349,62 @@ def capital_acm(datos):
 #       # datos[i]['capital acumulado'] = 5000 + datos[i]['profit_acm']
 #        i =+1
  
-#    datos['capital acumulado'] = 5000 + datos['profit_acm']
+    datos['capital_acm'] = 5000 + datos['profit_acm']
     
     return datos
 
 #%%
 def f_profit_diario(datos):
-    dates = datos['opentime']
-    dates = dates[0:9]
-    timeStamps = []
-    for i in datos['symbol']:
-        if i not in ssymb:
-            ssymb.append(i)
+    
+    dates = datos['opentime'].unique().tolist()
+    
+    relleno1 = np.zeros(len(dates))
+    relleno2 = np.zeros(len(dates))
+    
+    df_profit_acm_d = pd.DataFrame({'timestamp': dates, 'profit_d': relleno1,'profit_acm_d': relleno2})
+    
+    
+    #df_profit_acm_d = pd.DataFrame(relleno, columns = ['timestamp','profit_d','profit_acm_d'])
+    
+#    for i in range(0,len(dates)):
+#        df_profit_acm_d['timestamp'][i] = dates[i]
+    
+    #dates = datos['opentime']
+    #dates = dates[0:9]
+    #timeStamps = []
+#    for i in datos['symbol']:
+#        if i not in ssymb:
+#            ssymb.append(i)
+    
+        #Profit_acm_d = pd.DataFrame = {'timestamp': timeStamps, 'profit_d': profit_d, 
+        #                               'profit_acm_d': profit_acm_d}
         
-        prfit_acm_d = pd.DataFrame = {'timestamp': timeStamps, 'profit_d': prfoit_d, 'profit_acm_d': profit_acm_d}
+    return df_profit_acm_d
+#%%
+    ssymb = datos["symbol"].unique().tolist()
+
+    rnk = np.zeros(shape = (len(ssymb),2))
+
+    df_1_ranking = pd.DataFrame(rnk, columns = ['Symbol' , 'Rank'])
+     
+    for i in range (0,len(ssymb)):
+        df_1_ranking['Symbol'][i] = ssymb[i]
         
+    for i in range (0,len(df_1_ranking["Symbol"])):
+        g = 0
+        t = 0
+        for j in range (0,len(datos["symbol"])):
+            if df_1_ranking["Symbol"][i] == datos["symbol"][j]:
+                t =t + 1 
+                if datos['profit'][j] > 0:
+                    g =g+1
+                
+        df_1_ranking['Rank'][i] = g/t
         
+#%%
+    
+    
+    
 #%%
     
 def f_estadisticas_mad(datos):

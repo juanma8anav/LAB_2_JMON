@@ -42,12 +42,15 @@ f_estadisticas_b = fn.f_estadisticas_ba(datos = df_data)
 
 #%%
 
-df_1_ranking = fn.f_rank(datos = df_data)
+df_1_ranking = fn.f_rank(param_data = df_data)
 
 #%%
 
 df_data = fn.capital_acm(datos = df_data)
 
+#%%
+
+df_profit_acm_d = fn.f_profit_diario(datos = df_data)
 #%%
 
 estadisticas_mad = fn.f_estadisticas_mad(datos = df_data)
