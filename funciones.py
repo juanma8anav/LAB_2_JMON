@@ -10,6 +10,8 @@ import numpy as np                                      # funciones numericas
 import pandas as pd                                       # dataframes y utilidades
 from datetime import timedelta                            # diferencia entre datos tipo tiempo
 import datetime as datetime
+from  datetime import date, timedelta
+import yfinance as yf 
 
 
 # -- --------------------------------------------------------- FUNCION: Descargar precios -- #
@@ -90,6 +92,7 @@ def f_columnas_tiempos(datos):
     datos['opentime'] = pd.to_datetime( datos['opentime'])
     
     datos['tiempo'] = [(datos.loc[i, 'closetime'] - datos.loc[i, 'opentime']).delta / 1*np.exp(9) for i in range(0, len(datos))]
+    datos['tiempo'] = pd.to_datetime(datos['tiempo'])#.strftime("%Y-%m-%d, %H:%M")
     
     #i = 0
     #temp = []
@@ -355,17 +358,130 @@ def capital_acm(datos):
 
 #%%
 def f_profit_diario(datos):
+    
+    import yfinance as yf 
+    capital = 5000
+    
+    s_date = datos['closetime'][0].date()
+    e_date = datos['closetime'][len(datos)-1].date()
+    
+    Δ = e_date - s_date 
+    
+    sp500 = yf.download('^gspc', 
+                     start=s_date, 
+                     end=e_date, 
+                     progress=False)
+    
+    sp500.head()
+    sp500 = sp500.reset_index()
+    
+    sp500['Rendimientos Log'] = np.zeros(len(sp500))#['Adj Close']))
+    for i in range (1,len(sp500)):#['Adj Close'])):
+        sp500['Rendimientos Log'][i] = np.log(sp500['Adj Close'][i]/sp500['Adj Close'][i-1])
+        
+    
+    relleno1 = np.zeros(shape=(Δ.days+1,6))
+    df_profit_gen = pd.DataFrame(relleno1, columns = ['Timestamp','Profit Diario',
+                                                     'Capital Acumulado', 'Rendimientos Log','Rend Log SP',
+                                                     'Traceback Error'])
+    relleno2 = np.zeros(shape=(Δ.days+1,4))    
+    df_profit_compra = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
+                                                     'Capital Acumulado', 'Rendimientos Log'])
+    df_profit_venta = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
+                                                     'Capital Acumulado', 'Rendimientos Log'])
+    
+    
+    for i in range(0,Δ.days+1):
+        df_profit_gen["Timestamp"][i]= s_date + timedelta(days=i)
+        df_profit_compra["Timestamp"][i]= s_date + timedelta(days=i)
+        df_profit_venta["Timestamp"][i]= s_date + timedelta(days=i)
+        
+        
+    for i in range (0,len(df_profit_gen["Timestamp"])):
+        a = 0
+        b = 0
+        c = 0
+        
+        for k in range (0,len(datos["closetime"])):
+            if df_profit_gen["Timestamp"][i] == datos["closetime"][k].date():
+                a = a + datos["profit"][k]
+                
+                if datos['type'][k] == 'buy':
+                    b = b + datos["profit"][k]
+                    
+                elif datos['type'][k] == 'sell':
+                    c = c + datos["profit"][k]
+            
+        df_profit_gen["Profit Diario"][i] = a
+        df_profit_compra["Profit Diario"][i] = b
+        df_profit_venta["Profit Diario"][i] = c  
+            
+    for i in range (0,len(df_profit_gen["Timestamp"])):
+        
+        for k in range (0,len(sp500["Date"])):
+            if df_profit_gen["Timestamp"][i] == sp500["Date"][k].date():
+                df_profit_gen["Rend Log SP"][i] = sp500["Rendimientos Log"][k]
+                
+        
+    df_profit_gen = df_profit_gen.sort_values(by=['Timestamp'])
+    df_profit_gen = df_profit_gen.reset_index(drop=True)
+    
+    df_profit_compra = df_profit_compra.sort_values(by=['Timestamp'])
+    df_profit_compra = df_profit_compra.reset_index(drop=True)
+    
+    df_profit_venta = df_profit_venta.sort_values(by=['Timestamp'])
+    df_profit_venta = df_profit_venta.reset_index(drop=True)
+    
+    df_profit_gen['Capital Acumulado'][0] = capital + df_profit_gen['Profit Diario'][0]
+    df_profit_gen['Rendimientos Log'][0] = np.log(df_profit_gen['Capital Acumulado'][0]/capital)
+    
+    df_profit_compra['Capital Acumulado'][0] = capital + df_profit_compra['Profit Diario'][0]
+    df_profit_compra['Rendimientos Log'][0] = np.log(df_profit_compra['Capital Acumulado'][0]/capital)
+    
+    df_profit_venta['Capital Acumulado'][0] = capital + df_profit_venta['Profit Diario'][0]
+    df_profit_venta['Rendimientos Log'][0] = np.log(df_profit_venta['Capital Acumulado'][0]/capital)
+            
+    for i in range(1,len(df_profit_gen["Profit Diario"])):
+         df_profit_gen['Capital Acumulado'][i] = df_profit_gen['Capital Acumulado'][i-1] + df_profit_gen['Profit Diario'][i]
+         df_profit_gen['Rendimientos Log'][i] = np.log(df_profit_gen['Capital Acumulado'][i]/df_profit_gen['Capital Acumulado'][i-1])
+         df_profit_gen["Traceback Error"][i] = df_profit_gen["Rendimientos Log"][i]-df_profit_gen["Rend Log SP"][i]
+         
+         df_profit_compra['Capital Acumulado'][i] = df_profit_compra['Capital Acumulado'][i-1] + df_profit_compra['Profit Diario'][i]
+         df_profit_compra['Rendimientos Log'][i] = np.log(df_profit_compra['Capital Acumulado'][i]/df_profit_compra['Capital Acumulado'][i-1])
+         
+         df_profit_venta['Capital Acumulado'][i] = df_profit_venta['Capital Acumulado'][i-1] + df_profit_venta['Profit Diario'][i]
+         df_profit_venta['Rendimientos Log'][i] = np.log(df_profit_venta['Capital Acumulado'][i]/df_profit_venta['Capital Acumulado'][i-1])
+         
+    m = 0
+    c = 0
+     
+    while m != 5:
+        m = df_profit_gen["Timestamp"][c].weekday()
+        c = c + 1
+    
+    lista = []
+    
+    for i in range (c-1,len(df_profit_gen["Timestamp"])+1,7):
+        
+        lista.append(i)
+        
+        
+    
+        
+    df_profit_gen = df_profit_gen.drop(df_profit_gen.index[lista])
+    df_profit_compra = df_profit_compra.drop(df_profit_compra.index[lista])
+    df_profit_venta = df_profit_venta.drop(df_profit_venta.index[lista])
     #from datetime import datetime
-    dates = datos['opentime'].unique().tolist()
-    dates.date()# = pd.to_datetime(dates)
-    #dates = dates.dt.strftime(" %b %d %Y")  #'list' object has no attribute 'dt'
+#    dates = datos['opentime'].unique().tolist()
+#    dates.date()# = pd.to_datetime(dates)
+   #dates = dates.dt.strftime(" %b %d %Y")  #'list' object has no attribute 'dt'
 #    for i in range(0, len(dates)):
 #        dates[i] = dates[i].dt.strftime(" %b %d %Y")
         
-    relleno1 = np.zeros(len(dates))
-    relleno2 = np.zeros(len(dates))
+#    relleno1 = np.zeros(len(dates))
+ #   relleno2 = np.zeros(len(dates))
     
-    df_profit_acm_d = pd.DataFrame({'timestamp': dates, 'profit_d': relleno1,'profit_acm_d': relleno2})
+  #  df_profit_acm_d = pd.DataFrame({'timestamp': dates, 'profit_d': relleno1,'profit_acm_d': relleno2})
     #df_profit_acm_d['timestamp'] = df_profit_acm_d['timestamp'].dt.date('%m/%d/%Y')
     
     
@@ -384,36 +500,19 @@ def f_profit_diario(datos):
         #Profit_acm_d = pd.DataFrame = {'timestamp': timeStamps, 'profit_d': profit_d, 
         #                               'profit_acm_d': profit_acm_d}
         
-    return df_profit_acm_d
-#%%
-    ssymb = datos["symbol"].unique().tolist()
-
-    rnk = np.zeros(shape = (len(ssymb),2))
-
-    df_1_ranking = pd.DataFrame(rnk, columns = ['Symbol' , 'Rank'])
-     
-    for i in range (0,len(ssymb)):
-        df_1_ranking['Symbol'][i] = ssymb[i]
+    #return df_profit_acm_d
+    profit_diario_acum = {"Profit acum Gral":df_profit_gen ,"Profit compra":df_profit_compra,"profit venta":df_profit_venta,"S&P500":sp500}
         
-    for i in range (0,len(df_1_ranking["Symbol"])):
-        g = 0
-        t = 0
-        for j in range (0,len(datos["symbol"])):
-            if df_1_ranking["Symbol"][i] == datos["symbol"][j]:
-                t =t + 1 
-                if datos['profit'][j] > 0:
-                    g =g+1
-                
-        df_1_ranking['Rank'][i] = g/t
-        
-#%%
+    return profit_diario_acum
+
     
     
     
 #%%
     
 def f_estadisticas_mad(datos):
-    rf = 0.08
+    rf = 0.08/300
+    mar = .3/300
     rpmat = []
     i = 1
     for i in range(1, len(datos)):
@@ -431,9 +530,9 @@ def f_estadisticas_mad(datos):
     i = 0
     for i in range(0, len(rpmat)):
         if rpmat[i] > 0:
-            rpmatpos.append(rpmat)
+            rpmatpos.append(rpmat[i])
         else:
-            rpmatneg.append(rpmat)
+            rpmatneg.append(rpmat[i])
                 
             
     vsortino_c = (logrt - rf)/np.std(rpmatpos)
@@ -465,19 +564,7 @@ def f_estadisticas_mad(datos):
 
 #%%
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
 

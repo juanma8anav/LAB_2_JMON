@@ -50,7 +50,9 @@ df_data = fn.capital_acm(datos = df_data)
 
 #%%
 
-df_profit_acm_d = fn.f_profit_diario(datos = df_data)
+#df_profit_acm_d = fn.f_profit_diario(datos = df_data)
+
+profit_diario_acum = fn.f_profit_diario(datos = df_data)
 #%%
 
 estadisticas_mad = fn.f_estadisticas_mad(datos = df_data)
