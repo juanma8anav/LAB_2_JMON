@@ -17,9 +17,13 @@ import numpy as np
 
 
 
+
+
 #%%
-param_archivo='archivo_tradeview_1.csv'
-df_data = fn.f_leer_archivo(param_archivo='archivo_tradeview_1.csv')
+#param_archivo='archivo_tradeview_12.csv'
+#df_data = fn.f_leer_archivo(param_archivo='archivo_tradeview_12.csv')
+param_archivo='tocsv.csv'
+df_data = fn.f_leer_archivo(param_archivo='tocsv.csv')
 
 #%%
 
@@ -56,3 +60,25 @@ profit_diario_acum = fn.f_profit_diario(datos = df_data)
 #%%
 
 estadisticas_mad = fn.f_estadisticas_mad(datos = df_data)
+
+#%%sesgos cognitivos
+
+
+
+
+#%%
+
+#Graphs1 = fn.graph1(datos = df_1_ranking)
+Graphs1 = fn.graph1(datos = df_1_ranking)
+#%%
+Graphs2 = fn.graph2(input1 = df_data)#, input2 = estadisticas_mad)
+#Graphs3 = fn.graph1(datos = df_1_ranking)
+
+#%% graph pytplot
+GP1 = fn.gp1(datos = df_1_ranking)
+
+#%%
+GP2 = fn.gp2(datos = df_data)
+
+
+

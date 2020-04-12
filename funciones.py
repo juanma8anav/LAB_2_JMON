@@ -89,7 +89,7 @@ def f_columnas_tiempos(datos):
     df_data : nombre de la base de datos con la que estamos trabajando
     
     """
-    
+    #definimos variables de inicio y fin de tiempo bursatil
     datos['closetime'] = pd.to_datetime( datos['closetime'])
     datos['opentime'] = pd.to_datetime( datos['opentime'])
     
@@ -125,7 +125,7 @@ def f_estadisticas_ba(datos):
     v3 = 0
     v4 = v5 =v6 =v7=v8=v9=v10=v11=v12=0
     v0 = len(datos)
-    for c in range(0,len(datos)):#len(filter(datos['profit'] if x>0 )) #sum(1 for x in datos['profit'] if datos.iloc[i, 'profit'] >0)   # sum(1 for x in my_list if datos.profit[x]>0)
+    for c in range(0,len(datos)):
         if datos.profit[c]>0:
             v1 = v1+1
             
@@ -197,116 +197,6 @@ def f_rank(datos):
 
     
 
-
-
-    
-    
-    
-    
-    
-    #ssymbol = datos['symbol'].name.unique
-    
-#    ssymb = []
-#    for i in datos['symbol']:
-#        if i not in ssymb:
-#            ssymb.append(i)
-#            
-#    rnk = np.zeros(len(ssymb))
-#    
-#    
-#    
-#    df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
-    
-
-    
-#    g = 0
-#    t = 0
-#    for i in range(0,len(df_1_ranking)):
-#        for j in range(0, len(datos)):
-#            if df_1_ranking['Symbol'][i] == datos['symbol'][j]:
-#                t =+1
-#                if datos['profit'][j] > 0:
-#                    g =+1
-#        df_1_ranking['Rank'][i] = g/t
-#        
-        
-    
-    
-#    datos.sort_values(by = ['symbol'])#, ascending = True)
-#    i = 0 
-#    j = 0 
-#    
-#    for i in range(0, len(datos)):
-#        for j in range (0, len(df_1_ranking)):
-#            if datos['symbol'][i] == df_1_ranking['Symbol'][j]:
-#                if datos['profit'][i] > 0:
-#                    sum(1 in df_1_ranking['Rank'][j])
-#                else:
-#                    j =+1
-#            i =+1
-                        
-    
-    
-    
-    
-#    for datos.index, datos['symbol'] in datos.iterrows():
-#        for df_1_ranking.index, df_1_ranking['Symbol'] in df_1_ranking.iterrows():
-#            if ((datos['sysmbol'] == df_1_ranking['Symbol']) and (datos['profit'] > 0)):
-#                sum(1 in df_1_ranking['Rank'])
-    
-#    adid = np.zeros(len(datos)-len(df_1_ranking),2)
-#    df_adid = pd.DataFrame(adid)
-#    
-#    df_1_ranking = pd.concat(df_1_ranking, df_adid)
-    
-#    x = 0
-#    for x in range(0, len(df_data)):
-#        if pd.merge(df_1_ranking, df_data, on = (df_1_ranking['Symbol'] == df_data['symbol'])):
-#            if df_data['profit'] > 0:
-#                sum(1 in df_1_ranking['Rank'][x])
-#                x =+1
-    
-    
-    
-    #sum(1 for x in df_1_ranking['Rank'] if df_data[df_data['symbol'] ==])
-    
-    
-#    i = 0
-#    for i in range(0, len(df_data)):
-#        if df_data['profit'].eq(0)
-   
-        
-    
-    
-#    array = [-37,-36,-19,-99,29,20,3,-7,-64,84,36,62,26,-76,55,-24,84,49,-65,41] 
-#    print sum(i for i in array if array.index(i) % 2 == 0)*array[-1] if array != [] else 0
-#    i = 0    
-#    sum(1 for i in df_1_ranking['Rank'] if datos['symbol'][i] == df_1_ranking['Symbol'] & datos['profit'][i] > 0) 
-    
-    
-#    q = 0
-#    x = 0
-#    for q in range(0, len(datos)):
-#       sum(1 for x in df_1_ranking['Rank'][x] if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0) / sum(1 if df_1_ranking['Symbol'][x] == datos['symbol'][x])
-    
-#    i = 0
-#    j = 0
-#    c = 0
-#    t = 0
-#
-#    for i in range(0, len(datos)):
-#        for j in range(0, len(df_1_ranking)):
-#            if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
-#                df_1_ranking['Rank'][j] =+1 
-                
-            
-
-    
-#    for i in range (0,len(datos)):
-#        if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
-#            df_1_ranking['Rank'] =  count(datos['profit'],[i]) / count(datos[])
-        
-        
         
     
     return df_1_ranking
@@ -316,17 +206,6 @@ def f_rank(datos):
 def capital_acm(datos):
     
     
-    #datos['capital_acm'] = 5000 +  datos.iloc[0,17]
-#    i =1
-#    for i in range(1,len(datos)):
-        
-        #datos.iloc[i,18] = datos.iloc[i,13] + datos.iloc[i-1,18]
-        #datos.iloc[i,18] = datos.iloc[i,17] + datos.iloc[i-1,18]
-#    datos['capital acumulado'] = np.ones(len(datos))*5000
-#    for i in range(0,len(datos)):
-#        datos.iloc[i, 18] = 5000 + datos.iloc[i, 17]
-#       # datos[i]['capital acumulado'] = 5000 + datos[i]['profit_acm']
-#        i =+1
  
     datos['capital_acm'] = 5000 + datos['profit_acm']
     
@@ -334,21 +213,57 @@ def capital_acm(datos):
 
 #%%
 def f_profit_diario(datos):
-    #profit_d = profit_acm
-    #profit_acm_d = capital_acm
+
     from datetime import date
     import yfinance as yf 
     capital = 5000
     
- 
+    dateUnique = datos['opentime'].unique().astype(np.float64)
     
-        
+    dateGen = datos['opentime']#.astype(np.timedelta64)
+    
+    profitGen = datos['profit_acm'].astype(np.int)
+    
+    dateCol = np.zeros(len(dateUnique))
+    
+    profit_aCol = np.zeros(len(dateUnique))
+    profit_aCol[0] = datos['profit_acm'][0]
+    
+    ProbalanceCol = np.zeros(len(dateUnique))
+    
+    # i = iterador general
+    #j = iterador de uniques
+    
+    for i in range(1,len(datos['opentime'])):
+        for j in range(1,len(dateUnique)):
+                if dateGen[i] == dateUnique[j]:
+                    profit_aCol[j] = profit_aCol[j-1] + profitGen[i]
+                else:
+                    profit_aCol[j] = profitGen[i]
     
     
     
+#    TDU = np.transpose(dateUnique)
+#    TPA = np.transpose(profit_aCol)
+#    
+#    
+#    Tinfo = np.concatenate(TDU, TPA)
+#    info = np.transpose(Tinfo)
+                    
+#    info = np.arange(0,(len(dateUnique)))
+#    info['Timestamp'] = dateUnique
+#    info['profit_acm'] = profit_aCol
+#    info['balance'] = np.zeros(len(dateUnique))
+                    
+    #info = dateUnique + profit_aCol + ProbalanceCol#np.concatenate((dateUnique, profit_aCol, ProbalanceCol ))
+    #Rinfo = info.reshape(19,3)
     
+    #profit_diario_acum = pd.DataFrame(info, columns = ['Timestamp','profit_d','profit_acm_d' ])
+    bfech = {'timestamp': dateUnique}
     
-    
+    profit_diario_acum = pd.DataFrame(bfech)
+    profit_diario_acum['profit_d'] = profit_aCol
+    return profit_diario_acum
     
     #dummies ts
     #tsdummies = pd.get_dummies(datos["opentime"])
@@ -359,88 +274,105 @@ def f_profit_diario(datos):
     
     
     
-    #from datetime import datetime, timedelta
-    ts = datos["opentime"].unique().tolist()#.date() #timestamp
-    
-#    ts = []
-#    for i in datos['openprice']:
-#        if i not in ts:
-#            ts.append(i)
-    
-    
-#    ssymb = []
-#    for i in datos['symbol']:
-#        if i not in ssymb:
-#            ssymb.append(i)
-    
-    #ts = datetime(year = int(prets[0:4]), month = int(prets[4:6]), day = int(prets[6:8]))
-
-    #pro = np.zeros(shape = (len(ts),3)) #matriz vacía
-    
-    
-    
-    #modificamos lasfechaspor números para comparar, este es del histórico
-#    j = 1
-#    matd= np.zeros(len(datos["opentime"]))
-#    matd[0] = 1
-#    for i in range(1,len(datos["opentime"])):
-#        matd[i] = 1
-#        if datos['opentime'][i] == datos['opentime'][i-1]:
-#            i = i+1
-#    #lista de uniques para los dias y sus profits        
-#    ts = []
-#    for i in matd:
-#        if i not in ts:
-#            ts.append(i)       
-    
-    pro = np.zeros(shape = (len(ts),3))
-
-    df_profit_diario = pd.DataFrame(pro, columns = ['timestamp' , 'profit_d', 'profit_acm_d'])
-    
-    
-    #comparador = {'tiempo':datos["opentime"], 'prfofit_acum': datos['profit_acm']} 
-#    comparador = []
-#    comparador['tiempo'] = datos.iloc['opentime']
-#    comparador['profit_acum'] = datos['capital_acm']
-    
-    comp = np.zeros(shape = (len(datos['opentime']),2))
-    
-#    df_comparador = pd.DataFrame(comp, columns = ['tiempo', 'profit_acum'])
+#    #from datetime import datetime, timedelta
+#    ts = datos["opentime"].unique().tolist()#.date() #timestamp
+#    
+##    ts = []
+##    for i in datos['openprice']:
+##        if i not in ts:
+##            ts.append(i)
+#    
+#    
+##    ssymb = []
+##    for i in datos['symbol']:
+##        if i not in ssymb:
+##            ssymb.append(i)
+#    
+#    #ts = datetime(year = int(prets[0:4]), month = int(prets[4:6]), day = int(prets[6:8]))
+#
+#    #pro = np.zeros(shape = (len(ts),3)) #matriz vacía
+#    
+#
+#                
+#    
+#    #modificamos lasfechaspor números para comparar, este es del histórico
+##    j = 1
+##    matd= np.zeros(len(datos["opentime"]))
+##    matd[0] = 1
+##    for i in range(1,len(datos["opentime"])):
+##        matd[i] = 1
+##        if datos['opentime'][i] == datos['opentime'][i-1]:
+##            i = i+1
+##    #lista de uniques para los dias y sus profits        
+##    ts = []
+##    for i in matd:
+##        if i not in ts:
+##            ts.append(i)       
+#    
+#    pro = np.zeros(shape = (len(ts),3))
+#
+#    df_profit_diario = pd.DataFrame(pro, columns = ['timestamp' , 'profit_d', 'profit_acm_d'])
+#    
+#    
+#    times = [1,1,2,2,2,2,3,3,3,4,4,4,5,6,6,7,7,7,7,7,7,7,8,8,8,8,9,9,10,11,12,13,14,14,15,16,17,17,17,17,17,18,19]
+#    Ttimes = np.transpose(times)
+#    timesunique = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+#    Ttu = np.transpose(timesunique)
+#    Mprofit = datos['profit_acm']
+#    np.int(Mprofit)
+#    # i = iterador grande
+#    # j = iterador chico
+#    #convertimos profit acum a int
+#    pbase = 0
+#    datos['profit_acm'].astype(np.int64)
 #    for i in range(0,len(datos['opentime'])):
-#        df_comparador['tiempo'][i] = matd[i]
-#        df_comparador['profit_acum'][i] = datos['profit_acm'][i]
-        
-    #df_comparador['tiempo']
-    
-    for i in range (0,len(ts)):
-        df_profit_diario['timestamp'][i] = ts[i] #asignamos timestamp
-        
-    #tscomp = datos['opentime']#.apply(pd.to_numeric)
-        #df_data[numcols] = df_data[numcols].apply(pd.to_numeric)
-        
-    #df_profit_diario['profit_d'].apply(pd.to_numeric)
-    #datos['profit_acm'].apply(pd.to_numeric)
-    #N=np.floor(np.divide(1,delta))
- #============================================================================================================       
-        #i será el contador grande
-        #j sera el contador chico
-#    for i in range(0,len(matd)):
-#        for j in range(0,len(df_profit_diario['timestamp'])):
-#            if matd[i] == ts[j]:
-#                df_profit_diario['profit_d'][j].sum(datos['profit_acm'][i])
-                
-        
-#    for i in range (0,len(df_profit_diario["timestamp"])):
+#        for j in range(0,len(Ttu)):
+#            if Ttimes[i] == Ttu[j]:
+#                df_profit_diario['profit_d'][j] = pbase + sum(Mprofit[i])
+#    
+#    #comparador = {'tiempo':datos["opentime"], 'prfofit_acum': datos['profit_acm']} 
+##    comparador = []
+##    comparador['tiempo'] = datos.iloc['opentime']
+##    comparador['profit_acum'] = datos['capital_acm']
+#    
+#    comp = np.zeros(shape = (len(datos['opentime']),2))
+#    
+##    df_comparador = pd.DataFrame(comp, columns = ['tiempo', 'profit_acum'])
+##    for i in range(0,len(datos['opentime'])):
+##        df_comparador['tiempo'][i] = matd[i]
+##        df_comparador['profit_acum'][i] = datos['profit_acm'][i]
 #        
-#        for j in range (0,len(datos["opentime"])):
-#            if df_profit_diario["timestamp"][i] == datos["opentime"][j]:
-#                df_profit_diario['profit_d'][i].sum(datos['profit_acm'][j])    
-                
-            
-                
-        #['Rank'][i] = g/t
-    
-#    s_date = datos['closetime'][0].date()
+#    #df_comparador['tiempo']
+#    
+#    for i in range (0,len(ts)):
+#        df_profit_diario['timestamp'][i] = ts[i] #asignamos timestamp
+#        
+#    #tscomp = datos['opentime']#.apply(pd.to_numeric)
+#        #df_data[numcols] = df_data[numcols].apply(pd.to_numeric)
+#        
+#    #df_profit_diario['profit_d'].apply(pd.to_numeric)
+#    #datos['profit_acm'].apply(pd.to_numeric)
+#    #N=np.floor(np.divide(1,delta))
+# #============================================================================================================       
+#        #i será el contador grande
+#        #j sera el contador chico
+##    for i in range(0,len(matd)):
+##        for j in range(0,len(df_profit_diario['timestamp'])):
+##            if matd[i] == ts[j]:
+##                df_profit_diario['profit_d'][j].sum(datos['profit_acm'][i])
+#                
+#        
+##    for i in range (0,len(df_profit_diario["timestamp"])):
+##        
+##        for j in range (0,len(datos["opentime"])):
+##            if df_profit_diario["timestamp"][i] == datos["opentime"][j]:
+##                df_profit_diario['profit_d'][i].sum(datos['profit_acm'][j])    
+#                
+#            
+#                
+#        #['Rank'][i] = g/t
+#    
+##    s_date = datos['closetime'][0].date()
 #    e_date = datos['closetime'][len(datos)-1].date()
 #    
 #    Δ = e_date - s_date 
@@ -601,7 +533,7 @@ def f_profit_diario(datos):
     #profit_diario_acum = {"Profit acum Gral":df_profit_gen ,"Profit compra":df_profit_compra,"profit venta":df_profit_venta,"S&P500":sp500}
         
     #return profit_diario_acum
-    return df_profit_diario
+    #return df_profit_diario
     
     
     
@@ -681,7 +613,26 @@ def f_estadisticas_mad(datos):
         rpbench = (benchmark[i] - benchmark[i-1])/ benchmark[i-1]
         rp_benchmat.append(rpbench)
         
-    vinformation_r = 1
+        
+    
+
+# necesitamos profit acumulado
+#    s_date = datos.opentime[1]
+#    e_date = datos.opentime[len(datos['opentime'])-1]    
+#    sp500 = yf.download('^gspc', start=s_date, end=e_date, progress=False)
+#    
+#    benchmat = []
+#    i =1
+#    for i in range(1, len(sp500)):
+#        benchrp = (sp500[i] - sp500[i-1])/ sp500[i-1]
+#        rpmat.append(benchrp)
+#        i =+1
+#    
+#    bencRt = sum(benchmat)/len(benchmat)
+    
+    
+        
+    vinformation_r =  1#(rt-bencrt)/std(rt-benrtc)
     
     
     
@@ -716,14 +667,16 @@ def f_estadisticas_mad(datos):
 #import plotly.offline as py  
 #py.offline.init_notebook_mode#(connected=False)  
 #import plotly.express as px
+#
 #import plotly.graph_objects as go
+#import funciones as fn 
 #def graph1(datos):
 #    labels = np.transpose(datos.iloc[:,0])
 #    values = np.transpose(datos.iloc[:,1])
 #     
 #    # pull is given as a fraction of the pie radius
 #    #fig = py.graph_objects.Figure(data=[py.graph_objects.Pie(labels=labels, values=values)])
-#    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+#    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0.5, 0,  0, 0, 0, 0, 0, 0, 0])])
 #    
 #    py.iplot(fig)
 
@@ -731,24 +684,26 @@ def f_estadisticas_mad(datos):
 #import plotly
 #from plotly.offline import download_plotlyjs, init_notebook_mode, iplot
 #import plotly.graph_objs as go
-#
+
 #import plotly.plotly as py
-#py.init_notebook_mode(connected = False)
-#
-#def graph1(datos):
-#    labels = np.transpose(datos.iloc[:,0])
-#    values = np.transpose(datos.iloc[:,1])
-#     
-#    # pull is given as a fraction of the pie radius
-#    trace = go.Pie(labels = labels, values = values,
-#                   hoverinfo = 'label + percent', textinfo = 'value',
-#                   textfont = dict(size =25))
-#    #fig = py.graph_objects.Figure(data=[py.graph_objects.Pie(labels=labels, values=values)])
-#    #fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
-#    
-#    py.iplot([trace])
+py.init_notebook_mode(connected = False)
+
+def graph1(datos):
+    labels = np.transpose(datos.iloc[:,0])
+    values = np.transpose(datos.iloc[:,1])
+     
+    # pull is given as a fraction of the pie radius
+    trace = go.Pie(labels = labels, values = values,
+                   hoverinfo = 'label + percent', textinfo = 'value',
+                   textfont = dict(size =25))
+    #fig = py.graph_objects.Figure(data=[py.graph_objects.Pie(labels=labels, values=values)])
+    #fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+    
+    py.iplot([trace])
 #%% graph2
-import plotly.graph_objects as go
+#import plotly as py
+#import plotly.graph_objects as go
+#py.offline.init_notebook_mode(connected = False)
 def graph2(input1):#, input2):
 #    hist = input1['capital_acm']
     fechas = input1['closetime']
@@ -765,23 +720,52 @@ def graph2(input1):#, input2):
     fig.add_trace(go.Scatter(x = fechas, y = input1['capital_acm'][31:41], name = 'drawup',
                   line=dict(color='rgba(30, 130, 76, 1)', width=4, dash = 'dot'))) #recta punteadaa verde
     
-    fig.show()
+    py.iplot(fig)
 
 #%%graph3
    
+#####
+    
+#%%
+from matplotlib import pyplot as plt      
+def gp1(datos):
+    labels = np.transpose(datos.iloc[:,0])
+    values = np.transpose(datos.iloc[:,1])
+    explode = (0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0)
+    fig1, ax1 = plt.subplots()
+    ax1.pie(values, explode=explode, labels=labels, autopct='%1.1f%%',
+        shadow=True, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    plt.show()
+
+    
+    
+#%%Graph2 pyplot
+    
+    
+from matplotlib import pyplot     
+from pylab import figure, gca, Line2D
+def gp2(datos):
+
+
+#    DDD = datos.index[21:24]
+#    DUD = datos.index[31:41]
+    fig, ax = pyplot.subplots()
+    pyplot.plot(datos.index, datos['capital_acm'], c='black')
+    ax.add_line([21,datos['capital_acm'][21], [25,datos['capital_acm'][25]]])
+    #pyplot.plot([21, datos['capital_acm'][21]], [25,datos['capital_acm'][21]], color = 'red')
+#    ax.plot(DDD, datos['capital_acm'][21:24], c = 'red', linestyle='--'  )   
+#    ax.plot(DUD, datos['capital_acm'][31:41], c = 'green', linestyle='--'  )
+    
+    #pyplot.plot(decomposition.trend.index, decomposition.trend, c='red')
+    pyplot.show()
 
 
 
 
 
-
-
-
-
-
-
-
-
+    
 
 
 
