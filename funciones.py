@@ -35,8 +35,8 @@ def f_leer_archivo(param_archivo):
     # Asegurar que ciertas columnas son tipo numerico
     numcols =  ['s/l', 't/p', 'comission', 'openprice', 'closeprice', 'profit', 'size', 'swap', 'taxes']
     df_data[numcols] = df_data[numcols].apply(pd.to_numeric)  
-    datcols = ['opentime', 'closetime']
-    df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
+    #datcols = ['opentime', 'closetime']
+    #df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
     #del df_data['balance']
     df_data['symbol'].str.lower()
     df_data['symbol'].replace('/', '') 
@@ -340,9 +340,19 @@ def f_profit_diario(datos):
     import yfinance as yf 
     capital = 5000
     
+ 
+    
+        
+    
+    
+    
+    
+    
+    
+    
     #dummies ts
-    tsdummies = pd.get_dummies(datos["opentime"])
-    tsnum = np.zeros(len(datos["opentime"]))
+    #tsdummies = pd.get_dummies(datos["opentime"])
+    #tsnum = np.zeros(len(datos["opentime"]))
     
 #    for i in range(0,len(tsnum)):
 #        sum(1 in tsnum[i], if) 
@@ -350,7 +360,7 @@ def f_profit_diario(datos):
     
     
     #from datetime import datetime, timedelta
-    ts = datos["opentime"].unique().tolist().date() #timestamp
+    ts = datos["opentime"].unique().tolist()#.date() #timestamp
     
 #    ts = []
 #    for i in datos['openprice']:
@@ -365,7 +375,25 @@ def f_profit_diario(datos):
     
     #ts = datetime(year = int(prets[0:4]), month = int(prets[4:6]), day = int(prets[6:8]))
 
-    pro = np.zeros(shape = (len(ts),3)) #matriz vacía
+    #pro = np.zeros(shape = (len(ts),3)) #matriz vacía
+    
+    
+    
+    #modificamos lasfechaspor números para comparar, este es del histórico
+#    j = 1
+#    matd= np.zeros(len(datos["opentime"]))
+#    matd[0] = 1
+#    for i in range(1,len(datos["opentime"])):
+#        matd[i] = 1
+#        if datos['opentime'][i] == datos['opentime'][i-1]:
+#            i = i+1
+#    #lista de uniques para los dias y sus profits        
+#    ts = []
+#    for i in matd:
+#        if i not in ts:
+#            ts.append(i)       
+    
+    pro = np.zeros(shape = (len(ts),3))
 
     df_profit_diario = pd.DataFrame(pro, columns = ['timestamp' , 'profit_d', 'profit_acm_d'])
     
@@ -377,22 +405,29 @@ def f_profit_diario(datos):
     
     comp = np.zeros(shape = (len(datos['opentime']),2))
     
-    df_comparador = pd.DataFrame(comp, columns = ['tiempo', 'profit_acum'])
-    for i in range(0,len(datos['opentime'])):
-        df_comparador['tiempo'][i] = datos['opentime'][i]
-        df_comparador['profit_acum'][i] = datos['profit_acm'][i]
+#    df_comparador = pd.DataFrame(comp, columns = ['tiempo', 'profit_acum'])
+#    for i in range(0,len(datos['opentime'])):
+#        df_comparador['tiempo'][i] = matd[i]
+#        df_comparador['profit_acum'][i] = datos['profit_acm'][i]
         
-    df_comparador['tiempo']
+    #df_comparador['tiempo']
     
     for i in range (0,len(ts)):
         df_profit_diario['timestamp'][i] = ts[i] #asignamos timestamp
         
+    #tscomp = datos['opentime']#.apply(pd.to_numeric)
+        #df_data[numcols] = df_data[numcols].apply(pd.to_numeric)
+        
+    #df_profit_diario['profit_d'].apply(pd.to_numeric)
+    #datos['profit_acm'].apply(pd.to_numeric)
+    #N=np.floor(np.divide(1,delta))
+ #============================================================================================================       
         #i será el contador grande
         #j sera el contador chico
-    for i in range(0,len(datos["opentime"])):
-        for j in range(0,len(df_profit_diario['timestamp'])):
-            if datos["opentime"][i] == df_profit_diario['timestamp'][j]:
-                df_profit_diario['profit'][j].sum(datos['profit_acm'][i])
+#    for i in range(0,len(matd)):
+#        for j in range(0,len(df_profit_diario['timestamp'])):
+#            if matd[i] == ts[j]:
+#                df_profit_diario['profit_d'][j].sum(datos['profit_acm'][i])
                 
         
 #    for i in range (0,len(df_profit_diario["timestamp"])):
@@ -714,24 +749,25 @@ def f_estadisticas_mad(datos):
 #    py.iplot([trace])
 #%% graph2
 import plotly.graph_objects as go
-def graph2(input1, input2):
-    hist = input1['capital_acm']
+def graph2(input1):#, input2):
+#    hist = input1['capital_acm']
     fechas = input1['closetime']
-    drawdown = input1['capital_acm'][21:24]
-    drawup = input1['capital_acm'][31:41]
+ #   drawdown = input1['capital_acm'][21:24]
+  #  drawup = input1['capital_acm'][31:41]
     
     fig = go.Figure()
-    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'], name = 'profit histórico',
-                  line=dict(color='black', width=4)))
+    fig.add_trace(go.Scatter(x = fechas, y = input1['capital_acm'], name = 'profit histórico',
+                  line=dict(color='rgba(0, 0, 0, 0.5)', width=4)))
     
-    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'][21:24], name = 'drawdown',
-                  line=dict(color='red', width=4, dash = 'dot'))) #recta punteada rojo
+    fig.add_trace(go.Scatter(x = fechas, y = input1['capital_acm'][21:24], name = 'drawdown',
+                  line=dict(color='rgba(152, 0, 0, .8)', width=4, dash = 'dot'))) #recta punteada rojo
     
-    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'][31:41], name = 'drawup',
-                  line=dict(color='green', width=4, dash = 'dot'))) #recta punteadaa verde
+    fig.add_trace(go.Scatter(x = fechas, y = input1['capital_acm'][31:41], name = 'drawup',
+                  line=dict(color='rgba(30, 130, 76, 1)', width=4, dash = 'dot'))) #recta punteadaa verde
     
     fig.show()
 
+#%%graph3
    
 
 
