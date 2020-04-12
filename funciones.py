@@ -3,7 +3,7 @@
 # -- Proyecto: Describir brevemente el proyecto en general                                -- #
 # -- Codigo: RepasoPython.py - describir brevemente el codigo                             -- #
 # -- Repositorio: https://github.com/                                                     -- #
-# -- Autor: Nombre de autor                                                               -- #
+# -- Autor: Juan Mario Ochoa Navarro                                                      -- #
 # -- ------------------------------------------------------------------------------------ -- #
 
 import numpy as np                                      # funciones numericas
@@ -12,7 +12,8 @@ from datetime import timedelta                            # diferencia entre dat
 import datetime as datetime
 from  datetime import date, timedelta
 import yfinance as yf 
-
+import plotly.offline as py  
+py.offline.init_notebook_mode
 
 # -- --------------------------------------------------------- FUNCION: Descargar precios -- #
 # -- Descargar precios historicos con OANDA
@@ -32,10 +33,13 @@ def f_leer_archivo(param_archivo):
    # Convertir a minusculas el nombre de las columnas
     df_data.columns = [list(df_data.columns)[i].lower() for i in range(0, len(df_data.columns))]
     # Asegurar que ciertas columnas son tipo numerico
-    numcols =  ['s/l', 't/p', 'commission', 'openprice', 'closeprice', 'profit', 'size', 'swap', 'taxes']
+    numcols =  ['s/l', 't/p', 'comission', 'openprice', 'closeprice', 'profit', 'size', 'swap', 'taxes']
     df_data[numcols] = df_data[numcols].apply(pd.to_numeric)  
-    #datcols = ['opentime', 'closetime']
-    #df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
+    datcols = ['opentime', 'closetime']
+    df_data[datcols] = df_data[datcols].apply(pd.to_datetime)
+    #del df_data['balance']
+    df_data['symbol'].str.lower()
+    df_data['symbol'].replace('/', '') 
     return df_data
 
     
@@ -56,25 +60,23 @@ def f_pip_size(param_ins):
     ---------
     """""
     #param_ins =  'btcusd'
+    
     # encontrar y eliminar un guion bajo
     inst = param_ins.replace('_', '')
-    inst = param_ins.replace('-2', '')    
+    inst = param_ins.replace('-2', '')
+    inst = param_ins.replace('/', '')    
     # transformar a minusculas
     inst = inst.lower()
+    
     #lista de pips por instrumento
-    pip_inst = {'usdjpy': 10000, 'gbpjpy': 10000, 'eurjpy': 10000, 'cadjpy': 10000,
-                'chfjpy': 10000,'eurusd': 10000, 'gbpusd': 10000, 'usdcad': 10000, 
-                'usdmxn': 10000,'audusd': 10000, 'nzdusd': 10000, 'usdchf': 10000, 
-                'eurgbp': 10000, 'eurchf': 10000, 'eurnzd': 10000, 'euraud': 10000, 
+    pip_inst = {'usdjpy': 10000, 'gbpjpy': 10000, 'eurjpy': 10000, 'cadjpy': 10000, 'usdczk':10000,
+                'chfjpy': 10000,'eurusd': 10000, 'gbpusd': 10000, 'usdcad': 10000, 'usddkk':10000,
+                'usdmxn': 10000,'audusd': 10000, 'nzdusd': 10000, 'usdchf': 10000, 'usdcnh':10000,
+                'eurgbp': 10000, 'eurchf': 10000, 'eurnzd': 10000, 'euraud': 10000, 'usdzar': 10000, 
                 'gbpnzd': 10000, 'gbpchf': 10000, 'gbpaud': 10000, 'audnzd': 10000, 
                 'nzdcad': 10000,'audcad': 10000, 'xauusd': 10, 'xagusd': 10, 'btcusd': 1,
-                'nas100usd': 10, 'us30usd': 10, 'mbtcusd':100, 'usdmxn': 10000,}
-    
-    
-    
-    
-    #{'xauusd': 10, 'eurusd': 10000, 'xaueur': 10,'bcousd':1000,'conrusd':10000 ,'mbtcusd':1000,'wtiusd':1000, 'spx500usd':10}
-    
+                'nas100usd': 10, 'us30usd': 10, 'mbtcusd':100, 'usdmxn': 10000}
+       
     return pip_inst[param_ins]
 
 #%%
@@ -92,33 +94,7 @@ def f_columnas_tiempos(datos):
     datos['opentime'] = pd.to_datetime( datos['opentime'])
     
     datos['tiempo'] = [(datos.loc[i, 'closetime'] - datos.loc[i, 'opentime']).delta / 1*np.exp(9) for i in range(0, len(datos))]
-    datos['tiempo'] = pd.to_datetime(datos['tiempo'])#.strftime("%Y-%m-%d, %H:%M")
-    
-    #i = 0
-    #temp = []
-#    for i in range(0, len(datos)):#np.size(datos,2)):
-#        datos['closetime'] = pd.to_datetime( datos['closetime'])
-#        datos['opentime'] = pd.to_datetime( datos['opentime'])
-#        datos['tiempo'] = (datos.closetime[i] - datos.opentime[i]).delta/1*np.exp(9)
-        #datos['tiempo'] = datos.iloc[i,6]-datos.iloc[i,1]
-        #datos['tiempo'] = pd.to_datetime(datos.iloc[i,6])-pd.to_datetime(datos.iloc[i,1])
-        #tiempop.astype('timedelta64[D]')
-        #tiempop = datos.iloc[-6] - datos.iloc[2]
-        #tiempop = np.timedelta64(datos.iloc[6]) - np.timedelta64(datos.iloc[1])  
-        #np.datetime64(df_data.iloc[-6]) - np.datetime64(df_data.iloc[2])
-        #tiempops = np.datetime64(tiempop, 's')
-        #temp.append(tiempop)
-        #i = i+1
-    #td =   pd.to_timedelta(temp) 
-    #td = pd.to_timedelta(['-1 days +02:45:00','1 days +02:45:00','0 days +02:45:00'])
-    #df = pd.DataFrame({'td': td})
-
-    #df['td'] = df['td'] - pd.to_timedelta(df['td'].dt.days, unit='d')
-
-    #df = pd.DataFrame(pd.Timestamp(temp))
-    #j=0    
-    #for j in range(0, 84):
-        
+    #todos van a dar 0 ya que las operaciones se cerraron el mismo día que se abrieron     
     return datos
 
 #%%
@@ -358,119 +334,205 @@ def capital_acm(datos):
 
 #%%
 def f_profit_diario(datos):
-    
+    #profit_d = profit_acm
+    #profit_acm_d = capital_acm
+    from datetime import date
     import yfinance as yf 
     capital = 5000
     
-    s_date = datos['closetime'][0].date()
-    e_date = datos['closetime'][len(datos)-1].date()
+    #dummies ts
+    tsdummies = pd.get_dummies(datos["opentime"])
+    tsnum = np.zeros(len(datos["opentime"]))
     
-    Δ = e_date - s_date 
+#    for i in range(0,len(tsnum)):
+#        sum(1 in tsnum[i], if) 
     
-    sp500 = yf.download('^gspc', 
-                     start=s_date, 
-                     end=e_date, 
-                     progress=False)
     
-    sp500.head()
-    sp500 = sp500.reset_index()
     
-    sp500['Rendimientos Log'] = np.zeros(len(sp500))#['Adj Close']))
-    for i in range (1,len(sp500)):#['Adj Close'])):
-        sp500['Rendimientos Log'][i] = np.log(sp500['Adj Close'][i]/sp500['Adj Close'][i-1])
+    #from datetime import datetime, timedelta
+    ts = datos["opentime"].unique().tolist().date() #timestamp
+    
+#    ts = []
+#    for i in datos['openprice']:
+#        if i not in ts:
+#            ts.append(i)
+    
+    
+#    ssymb = []
+#    for i in datos['symbol']:
+#        if i not in ssymb:
+#            ssymb.append(i)
+    
+    #ts = datetime(year = int(prets[0:4]), month = int(prets[4:6]), day = int(prets[6:8]))
+
+    pro = np.zeros(shape = (len(ts),3)) #matriz vacía
+
+    df_profit_diario = pd.DataFrame(pro, columns = ['timestamp' , 'profit_d', 'profit_acm_d'])
+    
+    
+    #comparador = {'tiempo':datos["opentime"], 'prfofit_acum': datos['profit_acm']} 
+#    comparador = []
+#    comparador['tiempo'] = datos.iloc['opentime']
+#    comparador['profit_acum'] = datos['capital_acm']
+    
+    comp = np.zeros(shape = (len(datos['opentime']),2))
+    
+    df_comparador = pd.DataFrame(comp, columns = ['tiempo', 'profit_acum'])
+    for i in range(0,len(datos['opentime'])):
+        df_comparador['tiempo'][i] = datos['opentime'][i]
+        df_comparador['profit_acum'][i] = datos['profit_acm'][i]
         
+    df_comparador['tiempo']
     
-    relleno1 = np.zeros(shape=(Δ.days+1,6))
-    df_profit_gen = pd.DataFrame(relleno1, columns = ['Timestamp','Profit Diario',
-                                                     'Capital Acumulado', 'Rendimientos Log','Rend Log SP',
-                                                     'Traceback Error'])
-    relleno2 = np.zeros(shape=(Δ.days+1,4))    
-    df_profit_compra = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
-                                                     'Capital Acumulado', 'Rendimientos Log'])
-    df_profit_venta = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
-                                                     'Capital Acumulado', 'Rendimientos Log'])
-    
-    
-    for i in range(0,Δ.days+1):
-        df_profit_gen["Timestamp"][i]= s_date + timedelta(days=i)
-        df_profit_compra["Timestamp"][i]= s_date + timedelta(days=i)
-        df_profit_venta["Timestamp"][i]= s_date + timedelta(days=i)
+    for i in range (0,len(ts)):
+        df_profit_diario['timestamp'][i] = ts[i] #asignamos timestamp
         
-        
-    for i in range (0,len(df_profit_gen["Timestamp"])):
-        a = 0
-        b = 0
-        c = 0
-        
-        for k in range (0,len(datos["closetime"])):
-            if df_profit_gen["Timestamp"][i] == datos["closetime"][k].date():
-                a = a + datos["profit"][k]
-                
-                if datos['type'][k] == 'buy':
-                    b = b + datos["profit"][k]
-                    
-                elif datos['type'][k] == 'sell':
-                    c = c + datos["profit"][k]
-            
-        df_profit_gen["Profit Diario"][i] = a
-        df_profit_compra["Profit Diario"][i] = b
-        df_profit_venta["Profit Diario"][i] = c  
-            
-    for i in range (0,len(df_profit_gen["Timestamp"])):
-        
-        for k in range (0,len(sp500["Date"])):
-            if df_profit_gen["Timestamp"][i] == sp500["Date"][k].date():
-                df_profit_gen["Rend Log SP"][i] = sp500["Rendimientos Log"][k]
+        #i será el contador grande
+        #j sera el contador chico
+    for i in range(0,len(datos["opentime"])):
+        for j in range(0,len(df_profit_diario['timestamp'])):
+            if datos["opentime"][i] == df_profit_diario['timestamp'][j]:
+                df_profit_diario['profit'][j].sum(datos['profit_acm'][i])
                 
         
-    df_profit_gen = df_profit_gen.sort_values(by=['Timestamp'])
-    df_profit_gen = df_profit_gen.reset_index(drop=True)
-    
-    df_profit_compra = df_profit_compra.sort_values(by=['Timestamp'])
-    df_profit_compra = df_profit_compra.reset_index(drop=True)
-    
-    df_profit_venta = df_profit_venta.sort_values(by=['Timestamp'])
-    df_profit_venta = df_profit_venta.reset_index(drop=True)
-    
-    df_profit_gen['Capital Acumulado'][0] = capital + df_profit_gen['Profit Diario'][0]
-    df_profit_gen['Rendimientos Log'][0] = np.log(df_profit_gen['Capital Acumulado'][0]/capital)
-    
-    df_profit_compra['Capital Acumulado'][0] = capital + df_profit_compra['Profit Diario'][0]
-    df_profit_compra['Rendimientos Log'][0] = np.log(df_profit_compra['Capital Acumulado'][0]/capital)
-    
-    df_profit_venta['Capital Acumulado'][0] = capital + df_profit_venta['Profit Diario'][0]
-    df_profit_venta['Rendimientos Log'][0] = np.log(df_profit_venta['Capital Acumulado'][0]/capital)
+#    for i in range (0,len(df_profit_diario["timestamp"])):
+#        
+#        for j in range (0,len(datos["opentime"])):
+#            if df_profit_diario["timestamp"][i] == datos["opentime"][j]:
+#                df_profit_diario['profit_d'][i].sum(datos['profit_acm'][j])    
+                
             
-    for i in range(1,len(df_profit_gen["Profit Diario"])):
-         df_profit_gen['Capital Acumulado'][i] = df_profit_gen['Capital Acumulado'][i-1] + df_profit_gen['Profit Diario'][i]
-         df_profit_gen['Rendimientos Log'][i] = np.log(df_profit_gen['Capital Acumulado'][i]/df_profit_gen['Capital Acumulado'][i-1])
-         df_profit_gen["Traceback Error"][i] = df_profit_gen["Rendimientos Log"][i]-df_profit_gen["Rend Log SP"][i]
-         
-         df_profit_compra['Capital Acumulado'][i] = df_profit_compra['Capital Acumulado'][i-1] + df_profit_compra['Profit Diario'][i]
-         df_profit_compra['Rendimientos Log'][i] = np.log(df_profit_compra['Capital Acumulado'][i]/df_profit_compra['Capital Acumulado'][i-1])
-         
-         df_profit_venta['Capital Acumulado'][i] = df_profit_venta['Capital Acumulado'][i-1] + df_profit_venta['Profit Diario'][i]
-         df_profit_venta['Rendimientos Log'][i] = np.log(df_profit_venta['Capital Acumulado'][i]/df_profit_venta['Capital Acumulado'][i-1])
-         
-    m = 0
-    c = 0
-     
-    while m != 5:
-        m = df_profit_gen["Timestamp"][c].weekday()
-        c = c + 1
+                
+        #['Rank'][i] = g/t
     
-    lista = []
+#    s_date = datos['closetime'][0].date()
+#    e_date = datos['closetime'][len(datos)-1].date()
+#    
+#    Δ = e_date - s_date 
+#    
+#    sp500 = yf.download('^gspc', 
+#                     start=s_date, 
+#                     end=e_date, 
+#                     progress=False)
+#    
+#    sp500.head()
+#    sp500 = sp500.reset_index()
+#    
+#    sp500['Rendimientos Log'] = np.zeros(len(sp500))#['Adj Close']))
+#    for i in range (1,len(sp500)):#['Adj Close'])):
+#        sp500['Rendimientos Log'][i] = np.log(sp500['Adj Close'][i]/sp500['Adj Close'][i-1])
+#        
+#    
+#    relleno1 = np.zeros(shape=(Δ.days+1,6))
+#    df_profit_gen = pd.DataFrame(relleno1, columns = ['Timestamp','Profit Diario',
+#                                                     'Capital Acumulado', 'Rendimientos Log','Rend Log SP',
+#                                                     'Traceback Error'])
+#    relleno2 = np.zeros(shape=(Δ.days+1,4))    
+#    df_profit_compra = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
+#                                                     'Capital Acumulado', 'Rendimientos Log'])
+#    df_profit_venta = pd.DataFrame(relleno2, columns = ['Timestamp','Profit Diario',
+#                                                     'Capital Acumulado', 'Rendimientos Log'])
+#    
+#    
+#    for i in range(0,Δ.days+1):
+#        df_profit_gen["Timestamp"][i]= s_date + timedelta(days=i)
+#        df_profit_compra["Timestamp"][i]= s_date + timedelta(days=i)
+#        df_profit_venta["Timestamp"][i]= s_date + timedelta(days=i)
+#        
+#        
+#    for i in range (0,len(df_profit_gen["Timestamp"])):
+#        a = 0
+#        b = 0
+#        c = 0
+#        
+#        for k in range (0,len(datos["closetime"])):
+#            if df_profit_gen["Timestamp"][i] == datos["closetime"][k].date():
+#                a = a + datos["profit"][k]
+#                
+#                if datos['type'][k] == 'buy':
+#                    b = b + datos["profit"][k]
+#                    
+#                elif datos['type'][k] == 'sell':
+#                    c = c + datos["profit"][k]
+#            
+#        df_profit_gen["Profit Diario"][i] = a
+#        df_profit_compra["Profit Diario"][i] = b
+#        df_profit_venta["Profit Diario"][i] = c  
+#            
+#    for i in range (0,len(df_profit_gen["Timestamp"])):
+#        
+#        for k in range (0,len(sp500["Date"])):
+#            if df_profit_gen["Timestamp"][i] == sp500["Date"][k].date():
+#                df_profit_gen["Rend Log SP"][i] = sp500["Rendimientos Log"][k]
+#                
+#        
+#    df_profit_gen = df_profit_gen.sort_values(by=['Timestamp'])
+#    df_profit_gen = df_profit_gen.reset_index(drop=True)
+#    
+#    df_profit_compra = df_profit_compra.sort_values(by=['Timestamp'])
+#    df_profit_compra = df_profit_compra.reset_index(drop=True)
+#    
+#    df_profit_venta = df_profit_venta.sort_values(by=['Timestamp'])
+#    df_profit_venta = df_profit_venta.reset_index(drop=True)
+#    
+#    df_profit_gen['Capital Acumulado'][0] = capital + df_profit_gen['Profit Diario'][0]
+#    df_profit_gen['Rendimientos Log'][0] = np.log(df_profit_gen['Capital Acumulado'][0]/capital)
+#    
+#    df_profit_compra['Capital Acumulado'][0] = capital + df_profit_compra['Profit Diario'][0]
+#    df_profit_compra['Rendimientos Log'][0] = np.log(df_profit_compra['Capital Acumulado'][0]/capital)
+#    
+#    df_profit_venta['Capital Acumulado'][0] = capital + df_profit_venta['Profit Diario'][0]
+#    df_profit_venta['Rendimientos Log'][0] = np.log(df_profit_venta['Capital Acumulado'][0]/capital)
+#            
+#    for i in range(1,len(df_profit_gen["Profit Diario"])):
+#         df_profit_gen['Capital Acumulado'][i] = df_profit_gen['Capital Acumulado'][i-1] + df_profit_gen['Profit Diario'][i]
+#         df_profit_gen['Rendimientos Log'][i] = np.log(df_profit_gen['Capital Acumulado'][i]/df_profit_gen['Capital Acumulado'][i-1])
+#         df_profit_gen["Traceback Error"][i] = df_profit_gen["Rendimientos Log"][i]-df_profit_gen["Rend Log SP"][i]
+#         
+#         df_profit_compra['Capital Acumulado'][i] = df_profit_compra['Capital Acumulado'][i-1] + df_profit_compra['Profit Diario'][i]
+#         df_profit_compra['Rendimientos Log'][i] = np.log(df_profit_compra['Capital Acumulado'][i]/df_profit_compra['Capital Acumulado'][i-1])
+#         
+#         df_profit_venta['Capital Acumulado'][i] = df_profit_venta['Capital Acumulado'][i-1] + df_profit_venta['Profit Diario'][i]
+#         df_profit_venta['Rendimientos Log'][i] = np.log(df_profit_venta['Capital Acumulado'][i]/df_profit_venta['Capital Acumulado'][i-1])
+#         
+#    m = 0
+#    c = 0
+#     
+#    while m != 5:
+#        m = df_profit_gen["Timestamp"][c].weekday()
+#        c = c + 1
+#    
+#    lista = []
+#    
+#    for i in range (c-1,len(df_profit_gen["Timestamp"])+1,7):
+#        
+#        lista.append(i)
+#        
+#        
+#    
+#        
+#    df_profit_gen = df_profit_gen.drop(df_profit_gen.index[lista])
+#    df_profit_compra = df_profit_compra.drop(df_profit_compra.index[lista])
+#    df_profit_venta = df_profit_venta.drop(df_profit_venta.index[lista])
+    #-----------------------------------------------------------------------------------------------
     
-    for i in range (c-1,len(df_profit_gen["Timestamp"])+1,7):
-        
-        lista.append(i)
-        
-        
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------
     
-        
-    df_profit_gen = df_profit_gen.drop(df_profit_gen.index[lista])
-    df_profit_compra = df_profit_compra.drop(df_profit_compra.index[lista])
-    df_profit_venta = df_profit_venta.drop(df_profit_venta.index[lista])
     #from datetime import datetime
 #    dates = datos['opentime'].unique().tolist()
 #    dates.date()# = pd.to_datetime(dates)
@@ -501,18 +563,20 @@ def f_profit_diario(datos):
         #                               'profit_acm_d': profit_acm_d}
         
     #return df_profit_acm_d
-    profit_diario_acum = {"Profit acum Gral":df_profit_gen ,"Profit compra":df_profit_compra,"profit venta":df_profit_venta,"S&P500":sp500}
+    #profit_diario_acum = {"Profit acum Gral":df_profit_gen ,"Profit compra":df_profit_compra,"profit venta":df_profit_venta,"S&P500":sp500}
         
-    return profit_diario_acum
-
+    #return profit_diario_acum
+    return df_profit_diario
     
     
     
 #%%
-    
+from matplotlib import pyplot    
+#import statsmodel.api as sm
+
 def f_estadisticas_mad(datos):
     rf = 0.08/300
-    mar = .3/300
+    #mar = .3/300
     rpmat = []
     i = 1
     for i in range(1, len(datos)):
@@ -537,8 +601,41 @@ def f_estadisticas_mad(datos):
             
     vsortino_c = (logrt - rf)/np.std(rpmatpos)
     vsortino_v = (logrt - rf)/np.std(rpmatneg)
-    vdrawdown_capi_u = 1
-    vdrawdown_capi_c = 1
+    
+    
+    #Grafcamos el profit acumulado
+    #datos['capital_acm'].plot()
+    #decomposition = sm.tsa.seasonal_decompose(datos['capital_acm'], model = 'aditive')
+    pyplot.plot(datos.index, datos['capital_acm'], c='blue')
+    #pyplot.plot(decomposition.trend.index, decomposition.trend, c='red')
+    pyplot.show()
+    
+#    if max(datos['capital_acm']).index > min(datos['capital_acm']).index:
+#        p1 = base
+#        p2 = max(datos['capital_acm'])
+#        p3 = min(datos['capital_acm'])
+#    else:
+#        p1 = base
+#        p2 = min(datos['capital_acm'])
+#        p3 = max(datos['capital_acm'])
+    
+    f1dd = datos['opentime'][21]
+    f2dd = datos['closetime'][24]
+    difdd = datos['capital_acm'][24]-datos['capital_acm'][21]
+    
+    f1du = datos['opentime'][31]
+    f2du = datos['closetime'][41]
+    difdu = datos['capital_acm'][41]-datos['capital_acm'][31]
+
+    
+    #for i in range(0, len(datos['capital_acm'])):
+    #profit_diario_acum = {"Profit acum Gral":df_profit_gen ,"Profit compra":df_profit_compra,"profit venta":df_profit_venta,"S&P500":sp500}    
+    
+    
+    vdrawdown_capi = {'Fecha inicial': f1dd, 'Fecha Final':f2dd, 'DrawDaown$':difdd}
+    vdrawup_capi = {'Fecha inicial': f1du, 'Fecha Final':f2du, 'Drawup$':difdu}
+    #df_vdrawdown_capi = pd.DataFrame(vdrawdown_capi)
+    #df_vdrawup_capi = pd.DataFrame(vdrawup_capi)
     
     SP = pd.read_csv(r'C:/Users/Usuario/Documents/Sem9/Trading/labWork//^GSPC.csv') 
     df_SP = pd.DataFrame(SP)       
@@ -555,14 +652,85 @@ def f_estadisticas_mad(datos):
     
     
     estadisticas_mad = pd.DataFrame({'metrica': ['sharpe', 'sortino_c', 'sortino_v', 'drawdown_capi_c', 'drawdown_capi_u', 'information_r'],
-                     'valor': [vsharpe, vsortino_c, vsortino_v, vdrawdown_capi_c, vdrawdown_capi_u, vinformation_r], 
+                     'valor': [vsharpe, vsortino_c, vsortino_v, vdrawdown_capi, vdrawup_capi, vinformation_r], 
                      'descripcion': ['Sharpe Ratio', 'Sortino Ratio para Posiciones  de Compra', 
                                      'Sortino Ratio para Posiciones de Venta', 'DrawDown de Capital', 'DrawUp de Capital',  
                                      'Informatio Ratio']})
     
     return estadisticas_mad
 
+#%%Sesgos Cognitivos
+    
+
+#%%Gráficas
+#import cufflinks as cf
+#import plotly.plotly as py
+##import plotly.tools as tls
+#import plotly.graph_objects as go 
+#
+#a = np.linspace(start = 0, stop = 36, num = 36)
+#
+#np.random.seed(25)
+#b = np.random.uniform(los = 0, high = 1, size = 36)
+#
+#trace = go.scatter(x=a, y=b)
+#data = [trace]
+#
+#py.iplot(data)
+#%%Gráficas
+#import plotly.offline as py  
+#py.offline.init_notebook_mode#(connected=False)  
+#import plotly.express as px
+#import plotly.graph_objects as go
+#def graph1(datos):
+#    labels = np.transpose(datos.iloc[:,0])
+#    values = np.transpose(datos.iloc[:,1])
+#     
+#    # pull is given as a fraction of the pie radius
+#    #fig = py.graph_objects.Figure(data=[py.graph_objects.Pie(labels=labels, values=values)])
+#    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+#    
+#    py.iplot(fig)
+
 #%%
+#import plotly
+#from plotly.offline import download_plotlyjs, init_notebook_mode, iplot
+#import plotly.graph_objs as go
+#
+#import plotly.plotly as py
+#py.init_notebook_mode(connected = False)
+#
+#def graph1(datos):
+#    labels = np.transpose(datos.iloc[:,0])
+#    values = np.transpose(datos.iloc[:,1])
+#     
+#    # pull is given as a fraction of the pie radius
+#    trace = go.Pie(labels = labels, values = values,
+#                   hoverinfo = 'label + percent', textinfo = 'value',
+#                   textfont = dict(size =25))
+#    #fig = py.graph_objects.Figure(data=[py.graph_objects.Pie(labels=labels, values=values)])
+#    #fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+#    
+#    py.iplot([trace])
+#%% graph2
+import plotly.graph_objects as go
+def graph2(input1, input2):
+    hist = input1['capital_acm']
+    fechas = input1['closetime']
+    drawdown = input1['capital_acm'][21:24]
+    drawup = input1['capital_acm'][31:41]
+    
+    fig = go.Figure()
+    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'], name = 'profit histórico',
+                  line=dict(color='black', width=4)))
+    
+    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'][21:24], name = 'drawdown',
+                  line=dict(color='red', width=4, dash = 'dot'))) #recta punteada rojo
+    
+    fig.add_trace(go.scatter(x = fechas, y = input1['capital_acm'][31:41], name = 'drawup',
+                  line=dict(color='green', width=4, dash = 'dot'))) #recta punteadaa verde
+    
+    fig.show()
 
    
 
