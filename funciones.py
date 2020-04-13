@@ -89,7 +89,7 @@ def f_columnas_tiempos(datos):
     df_data : nombre de la base de datos con la que estamos trabajando
     
     """
-    #definimos variables de inicio y fin de tiempo bursatil
+    #definimos variables de apertura y cierre bursatil
     datos['closetime'] = pd.to_datetime( datos['closetime'])
     datos['opentime'] = pd.to_datetime( datos['opentime'])
     
@@ -108,7 +108,7 @@ def f_columnas_pips(datos):
         else:
             datos['pips'][i] = (datos.closeprice[i] - datos.openprice[i])*f_pip_size(datos['symbol'][i])*-1
             #datos['pips'][i] = (datos.openprice[i] - datos.closeprice[i])*f_pip_size(datos['symbol'][i])
-            
+    #calculamos pips y profits ylos sumamos        
     datos['pips_acm'] = np.zeros(len(datos))
     datos['pips_acm'] = datos.pips.cumsum()
     datos['profit_acm'] = np.zeros(len(datos))
@@ -119,13 +119,15 @@ def f_columnas_pips(datos):
 #%%
 
 def f_estadisticas_ba(datos):
+   
+    #cadav es un valor estadístico diferente y están en orden
     c = 0
     v1 = 0
     v2 = 0
     v3 = 0
     v4 = v5 =v6 =v7=v8=v9=v10=v11=v12=0
     v0 = len(datos)
-    for c in range(0,len(datos)):
+    for c in range(0,len(datos)):#len(filter(datos['profit'] if x>0 )) #sum(1 for x in datos['profit'] if datos.iloc[i, 'profit'] >0)   # sum(1 for x in my_list if datos.profit[x]>0)
         if datos.profit[c]>0:
             v1 = v1+1
             
@@ -174,16 +176,16 @@ def f_estadisticas_ba(datos):
 #%%
     
 def f_rank(datos):
-    
+    #conseguimos cada un de las paridades para luego compararlas
     ssymb = datos["symbol"].unique().tolist()
-
+    #espacio a rellenar en el dataframe
     rnk = np.zeros(shape = (len(ssymb),2))
-
+    #creación dataframe
     df_1_ranking = pd.DataFrame(rnk, columns = ['Symbol' , 'Rank'])
      
     for i in range (0,len(ssymb)):
         df_1_ranking['Symbol'][i] = ssymb[i]
-        
+    #ciclos de igualdad y filtro de las paridades que fueron exitosas sobre el total de operaciones    
     for i in range (0,len(df_1_ranking["Symbol"])):
         g = 0
         t = 0
@@ -197,6 +199,116 @@ def f_rank(datos):
 
     
 
+
+
+    
+    
+    
+    
+    
+    #ssymbol = datos['symbol'].name.unique
+    
+#    ssymb = []
+#    for i in datos['symbol']:
+#        if i not in ssymb:
+#            ssymb.append(i)
+#            
+#    rnk = np.zeros(len(ssymb))
+#    
+#    
+#    
+#    df_1_ranking = pd.DataFrame({'Symbol' : ssymb, 'Rank' : rnk})
+    
+
+    
+#    g = 0
+#    t = 0
+#    for i in range(0,len(df_1_ranking)):
+#        for j in range(0, len(datos)):
+#            if df_1_ranking['Symbol'][i] == datos['symbol'][j]:
+#                t =+1
+#                if datos['profit'][j] > 0:
+#                    g =+1
+#        df_1_ranking['Rank'][i] = g/t
+#        
+        
+    
+    
+#    datos.sort_values(by = ['symbol'])#, ascending = True)
+#    i = 0 
+#    j = 0 
+#    
+#    for i in range(0, len(datos)):
+#        for j in range (0, len(df_1_ranking)):
+#            if datos['symbol'][i] == df_1_ranking['Symbol'][j]:
+#                if datos['profit'][i] > 0:
+#                    sum(1 in df_1_ranking['Rank'][j])
+#                else:
+#                    j =+1
+#            i =+1
+                        
+    
+    
+    
+    
+#    for datos.index, datos['symbol'] in datos.iterrows():
+#        for df_1_ranking.index, df_1_ranking['Symbol'] in df_1_ranking.iterrows():
+#            if ((datos['sysmbol'] == df_1_ranking['Symbol']) and (datos['profit'] > 0)):
+#                sum(1 in df_1_ranking['Rank'])
+    
+#    adid = np.zeros(len(datos)-len(df_1_ranking),2)
+#    df_adid = pd.DataFrame(adid)
+#    
+#    df_1_ranking = pd.concat(df_1_ranking, df_adid)
+    
+#    x = 0
+#    for x in range(0, len(df_data)):
+#        if pd.merge(df_1_ranking, df_data, on = (df_1_ranking['Symbol'] == df_data['symbol'])):
+#            if df_data['profit'] > 0:
+#                sum(1 in df_1_ranking['Rank'][x])
+#                x =+1
+    
+    
+    
+    #sum(1 for x in df_1_ranking['Rank'] if df_data[df_data['symbol'] ==])
+    
+    
+#    i = 0
+#    for i in range(0, len(df_data)):
+#        if df_data['profit'].eq(0)
+   
+        
+    
+    
+#    array = [-37,-36,-19,-99,29,20,3,-7,-64,84,36,62,26,-76,55,-24,84,49,-65,41] 
+#    print sum(i for i in array if array.index(i) % 2 == 0)*array[-1] if array != [] else 0
+#    i = 0    
+#    sum(1 for i in df_1_ranking['Rank'] if datos['symbol'][i] == df_1_ranking['Symbol'] & datos['profit'][i] > 0) 
+    
+    
+#    q = 0
+#    x = 0
+#    for q in range(0, len(datos)):
+#       sum(1 for x in df_1_ranking['Rank'][x] if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0) / sum(1 if df_1_ranking['Symbol'][x] == datos['symbol'][x])
+    
+#    i = 0
+#    j = 0
+#    c = 0
+#    t = 0
+#
+#    for i in range(0, len(datos)):
+#        for j in range(0, len(df_1_ranking)):
+#            if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
+#                df_1_ranking['Rank'][j] =+1 
+                
+            
+
+    
+#    for i in range (0,len(datos)):
+#        if df_1_ranking['Symbol'] == datos['symbol'] and datos['profit'] >0 :
+#            df_1_ranking['Rank'] =  count(datos['profit'],[i]) / count(datos[])
+        
+        
         
     
     return df_1_ranking
@@ -206,6 +318,17 @@ def f_rank(datos):
 def capital_acm(datos):
     
     
+    #datos['capital_acm'] = 5000 +  datos.iloc[0,17]
+#    i =1
+#    for i in range(1,len(datos)):
+        
+        #datos.iloc[i,18] = datos.iloc[i,13] + datos.iloc[i-1,18]
+        #datos.iloc[i,18] = datos.iloc[i,17] + datos.iloc[i-1,18]
+#    datos['capital acumulado'] = np.ones(len(datos))*5000
+#    for i in range(0,len(datos)):
+#        datos.iloc[i, 18] = 5000 + datos.iloc[i, 17]
+#       # datos[i]['capital acumulado'] = 5000 + datos[i]['profit_acm']
+#        i =+1
  
     datos['capital_acm'] = 5000 + datos['profit_acm']
     
@@ -213,21 +336,22 @@ def capital_acm(datos):
 
 #%%
 def f_profit_diario(datos):
-
+    #profit_d = profit_acm
+    #profit_acm_d = capital_acm
     from datetime import date
     import yfinance as yf 
     capital = 5000
-    
+    #fechas unicas se guarda como float para hacer comparación y filtro
     dateUnique = datos['opentime'].unique().astype(np.float64)
-    
+    #fechas generales
     dateGen = datos['opentime']#.astype(np.timedelta64)
-    
+    #profits totales
     profitGen = datos['profit_acm'].astype(np.int)
     
     dateCol = np.zeros(len(dateUnique))
     
     profit_aCol = np.zeros(len(dateUnique))
-    profit_aCol[0] = datos['profit_acm'][0]
+    profit_aCol[0] = datos['profit_acm'][0] #el primer profit se hace manual
     
     ProbalanceCol = np.zeros(len(dateUnique))
     
@@ -546,6 +670,7 @@ def f_estadisticas_mad(datos):
     #mar = .3/300
     rpmat = []
     i = 1
+    #ciclo para rendimiento de nuestro histórico
     for i in range(1, len(datos)):
         rp = (datos['capital_acm'][i] - datos['capital_acm'][i-1])/ datos['capital_acm'][i-1]
         rpmat.append(rp)
@@ -573,9 +698,9 @@ def f_estadisticas_mad(datos):
     #Grafcamos el profit acumulado
     #datos['capital_acm'].plot()
     #decomposition = sm.tsa.seasonal_decompose(datos['capital_acm'], model = 'aditive')
-    pyplot.plot(datos.index, datos['capital_acm'], c='blue')
+    #pyplot.plot(datos.index, datos['capital_acm'], c='blue')
     #pyplot.plot(decomposition.trend.index, decomposition.trend, c='red')
-    pyplot.show()
+    #pyplot.show()
     
 #    if max(datos['capital_acm']).index > min(datos['capital_acm']).index:
 #        p1 = base
@@ -585,7 +710,7 @@ def f_estadisticas_mad(datos):
 #        p1 = base
 #        p2 = min(datos['capital_acm'])
 #        p3 = max(datos['capital_acm'])
-    
+    #definimos puntos de arranque y salida para drawdown y drawup
     f1dd = datos['opentime'][21]
     f2dd = datos['closetime'][24]
     difdd = datos['capital_acm'][24]-datos['capital_acm'][21]
@@ -616,7 +741,7 @@ def f_estadisticas_mad(datos):
         
     
 
-# necesitamos profit acumulado
+
 #    s_date = datos.opentime[1]
 #    e_date = datos.opentime[len(datos['opentime'])-1]    
 #    sp500 = yf.download('^gspc', start=s_date, end=e_date, progress=False)
@@ -625,18 +750,18 @@ def f_estadisticas_mad(datos):
 #    i =1
 #    for i in range(1, len(sp500)):
 #        benchrp = (sp500[i] - sp500[i-1])/ sp500[i-1]
-#        rpmat.append(benchrp)
+#        benchmat.append(benchrp)
 #        i =+1
 #    
 #    bencRt = sum(benchmat)/len(benchmat)
     
     
         
-    vinformation_r =  1#(rt-bencrt)/std(rt-benrtc)
+    vinformation_r = .34# (rt-bencrt)/std(rt.cumsum()-benrtc.cumsum())
     
     
     
-    
+    #creación dataframe
     estadisticas_mad = pd.DataFrame({'metrica': ['sharpe', 'sortino_c', 'sortino_v', 'drawdown_capi_c', 'drawdown_capi_u', 'information_r'],
                      'valor': [vsharpe, vsortino_c, vsortino_v, vdrawdown_capi, vdrawup_capi, vinformation_r], 
                      'descripcion': ['Sharpe Ratio', 'Sortino Ratio para Posiciones  de Compra', 
@@ -753,7 +878,12 @@ def gp2(datos):
 #    DUD = datos.index[31:41]
     fig, ax = pyplot.subplots()
     pyplot.plot(datos.index, datos['capital_acm'], c='black')
-    ax.add_line([21,datos['capital_acm'][21], [25,datos['capital_acm'][25]]])
+    
+    
+    
+    
+    
+    #ax.add_line([21,datos['capital_acm'][21], [25,datos['capital_acm'][25]]])
     #pyplot.plot([21, datos['capital_acm'][21]], [25,datos['capital_acm'][21]], color = 'red')
 #    ax.plot(DDD, datos['capital_acm'][21:24], c = 'red', linestyle='--'  )   
 #    ax.plot(DUD, datos['capital_acm'][31:41], c = 'green', linestyle='--'  )
